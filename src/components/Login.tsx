@@ -17,7 +17,7 @@ export const Login: FunctionComponent = () => {
 
   const startRegister = async () => {
     const resp = await fetch(
-      `${process.env.REACT_APP_DOORKNOB_KRATOS_ENDPOINT}/.ory/login`
+      `${process.env.REACT_APP_DOORKNOB_KRATOS_ENDPOINT}/.ory/self-service/browser/flows/login`
     );
     const body: { url: string } = await resp.json();
     window.location.assign(body.url);
