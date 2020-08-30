@@ -17,5 +17,6 @@ module.exports = {
   },
   rules: {
     quotes: ["error", "double"],
+    "react/prop-types": [2, { ignore: ["children"] }],
   },
 };
