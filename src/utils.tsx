@@ -1,16 +1,23 @@
-import React from "react";
+import React, {
+  FunctionComponent,
+  JSXElementConstructor,
+  PropsWithChildren,
+} from "react";
 
-export const composeProviders = (
-  wrappers: React.FunctionComponent[]
-): React.FunctionComponent => {
-  return wrappers.reduce(
-    (Acc, Current): React.FunctionComponent => {
-      // eslint-disable-next-line react/display-name
-      return (props) => (
-        <Current>
-          <Acc {...props} />
-        </Current>
-      );
-    }
+interface Props {
+  //eslint-disable-next-line @typescript-eslint/no-explicit-any
+  components: Array<JSXElementConstructor<PropsWithChildren<any>>>;
+  children: React.ReactNode;
+}
+
+export const Compose: FunctionComponent<Props> = (props: Props) => {
+  const { components = [], children, ...rest } = props;
+
+  return (
+    <>
+      {components.reduceRight((acc, Comp) => {
+        return <Comp {...rest}>{acc}</Comp>;
+      }, children)}
+    </>
   );
 };
