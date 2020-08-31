@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FunctionComponent } from "react";
 import qs from "query-string";
 import { useLocation } from "react-router-dom";
@@ -12,20 +12,17 @@ export const Login: FunctionComponent = () => {
   const { request } = qs.parse(location.search);
   const kratos = useKratos();
 
-  const init = useCallback(async (): Promise<void> => {
-    const b = await kratos.initLogin(request);
-    console.log("Login body: ", b);
-    if (b) {
-      setBody(b);
-    }
+  useEffect(() => {
+    kratos
+      .initLogin(request)
+      .then((b) => {
+        if (b) {
+          setBody(b);
+        }
+      })
+      .catch((err) => console.error("Error: ", err));
   }, [kratos, request]);
 
-  useEffect(() => {
-    console.log("init Login");
-    init().catch((err) => console.error("Error: ", err));
-  }, [init]);
-
-  console.log("Login Component: body: ", body);
   const messages = body?.messages;
   const form = body?.methods?.password?.config;
 

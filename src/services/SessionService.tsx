@@ -8,7 +8,7 @@ const SessionContext = createContext<Session | null>(null);
 export const useSession = (): Session | null => useContext(SessionContext);
 
 export const SessionProvider: React.FunctionComponent = ({ children }) => {
-  const [session, setSession] = useState(new Session());
+  const [session, setSession] = useState<Session | null>(null);
   const kratos = useKratos();
   const auth = useAuth();
 
@@ -17,21 +17,18 @@ export const SessionProvider: React.FunctionComponent = ({ children }) => {
       kratos.client
         .whoami()
         .then(({ body }) => {
-          console.log("Session Service: body: ", body);
-          const now = new Date();
-          const expiry = body.expiresAt;
-          if (now > expiry) {
+          if (new Date() > body.expiresAt) {
             return auth.refresh();
           } else {
             setSession(body);
           }
         })
         .catch((error) => {
-          auth.setAuthed(false);
           console.error(error);
+          auth.setAuthed(false);
           auth.login(false);
         });
-  }, []);
+  }, [auth, kratos.client]);
 
   return (
     <SessionContext.Provider value={session}>

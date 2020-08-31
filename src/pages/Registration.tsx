@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FunctionComponent } from "react";
 import qs from "query-string";
 import { useLocation } from "react-router-dom";
@@ -10,20 +10,18 @@ export const Registration: FunctionComponent = () => {
   const [body, setBody] = useState<RegistrationRequest>();
   const location = useLocation();
   const { request } = qs.parse(location.search);
-  const kratosService = useKratos();
-
-  const init = useCallback(async (): Promise<void> => {
-    const b = await kratosService.initRegister(request);
-    console.log("Register body: ", b);
-    if (b) {
-      setBody(b);
-    }
-  }, [kratosService, request]);
+  const kratos = useKratos();
 
   useEffect(() => {
-    console.log("init Register");
-    init().catch((err) => console.error("Error: ", err));
-  }, [init]);
+    kratos
+      .initRegister(request)
+      .then((b) => {
+        if (b) {
+          setBody(b);
+        }
+      })
+      .catch((err) => console.error("Error: ", err));
+  }, [kratos, request]);
 
   const messages = body?.messages;
   const form = body?.methods?.password?.config;
@@ -33,7 +31,7 @@ export const Registration: FunctionComponent = () => {
       {messages && <KratosMessages messages={messages} />}
       {form && (
         <KratosForm
-          submitLabel="Sign in"
+          submitLabel="Register"
           action={form.action}
           fields={form.fields}
           messages={form.messages}

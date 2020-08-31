@@ -1,6 +1,4 @@
 import React, { createContext, FunctionComponent, useContext } from "react";
-import { useHistory } from "react-router-dom";
-import H from "history";
 
 const LS_AUTHED = "kratos.authed";
 const LS_REFERER = "kratos.referer";
@@ -24,8 +22,6 @@ interface AuthService {
 }
 
 class AuthServiceImpl implements AuthService {
-  constructor(private history: H.History<unknown>) {}
-
   getAuthed(): boolean {
     return localStorage.getItem(LS_AUTHED) === "true";
   }
@@ -39,7 +35,7 @@ class AuthServiceImpl implements AuthService {
     if (setReferer) {
       this.setReferer(window.location.toString());
     }
-    this.history.push("/auth/login");
+    window.location.assign("/auth/login");
   }
 
   logout(): void {
@@ -63,7 +59,7 @@ class AuthServiceImpl implements AuthService {
     if (setReferer) {
       this.setReferer(window.location.toString());
     }
-    this.history.push("/auth/registration");
+    window.location.assign("/auth/registration");
   }
 
   setAuthed(isAuthed: boolean): void {
@@ -86,8 +82,7 @@ class AuthServiceImpl implements AuthService {
 const AuthContext = createContext<AuthService | null>(null);
 
 export const AuthProvider: FunctionComponent = (props) => {
-  const history = useHistory();
-  const service: AuthService = new AuthServiceImpl(history);
+  const service: AuthService = new AuthServiceImpl();
 
   return (
     <AuthContext.Provider value={service}>
