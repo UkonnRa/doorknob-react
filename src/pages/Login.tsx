@@ -14,12 +14,14 @@ export const Login: FunctionComponent = () => {
 
   const init = useCallback(async (): Promise<void> => {
     const b = await kratosService.initLogin(request);
+    console.log("Login body: ", b);
     if (b) {
       setBody(b);
     }
   }, [kratosService, request]);
 
   useEffect(() => {
+    console.log("init Login");
     init().catch((err) => console.error("Error: ", err));
   }, [init]);
 
@@ -31,7 +33,7 @@ export const Login: FunctionComponent = () => {
       {messages && <KratosMessages messages={messages} />}
       {form && (
         <KratosForm
-          submitLabel="Sign in"
+          submitLabel="Log in"
           action={form.action}
           fields={form.fields}
           messages={form.messages}

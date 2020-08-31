@@ -5,11 +5,11 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
 import { Compose } from "./utils";
-import { KratosProvider } from "./services";
+import { KratosProvider, AuthProvider } from "./services";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Compose components={[BrowserRouter, KratosProvider]}>
+    <Compose components={[BrowserRouter, KratosProvider, AuthProvider]}>
       <CssBaseline />
       <App />
     </Compose>

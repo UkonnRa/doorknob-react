@@ -10,6 +10,7 @@ import {
 import { IncomingMessage } from "http";
 
 interface KratosService {
+  client: PublicApi;
   initLogin(request: string | unknown): Promise<LoginRequest | undefined>;
   initRegister(
     request: string | unknown
@@ -22,10 +23,11 @@ interface KratosService {
 }
 
 const KratosContext = createContext<KratosService | null>(null);
-const kratosClient = new PublicApi(process.env.REACT_APP_KRATOS_PUBLIC_URL);
+const client = new PublicApi(process.env.REACT_APP_KRATOS_PUBLIC_URL);
 
 export const KratosProvider: FunctionComponent = (props) => {
-  const value = {
+  const value: KratosService = {
+    client,
     initLogin,
     initRegister,
     initSettings,
@@ -52,7 +54,7 @@ const initLogin = async (
 ): Promise<LoginRequest | undefined> => {
   const fallback = `/self-service/browser/flows/login?return_to=${process.env.REACT_APP_BASE_URL}/callback`;
   return await init(request, fallback, (r) =>
-    kratosClient.getSelfServiceBrowserLoginRequest(r)
+    client.getSelfServiceBrowserLoginRequest(r)
   );
 };
 
@@ -61,7 +63,7 @@ const initRegister = async (
 ): Promise<RegistrationRequest | undefined> => {
   const fallback = `/self-service/browser/flows/registration?return_to=${process.env.REACT_APP_BASE_URL}/callback`;
   return await init(request, fallback, (r) =>
-    kratosClient.getSelfServiceBrowserRegistrationRequest(r)
+    client.getSelfServiceBrowserRegistrationRequest(r)
   );
 };
 
@@ -70,7 +72,7 @@ const initSettings = async (
 ): Promise<SettingsRequest | undefined> => {
   const fallback = "/self-service/browser/flows/settings";
   return await init(request, fallback, (r) =>
-    kratosClient.getSelfServiceBrowserSettingsRequest(r)
+    client.getSelfServiceBrowserSettingsRequest(r)
   );
 };
 
@@ -79,7 +81,7 @@ const initVerify = async (
 ): Promise<VerificationRequest | undefined> => {
   const fallbackPath = "/self-service/browser/flows/verification/init/email";
   return await init(request, fallbackPath, (r) =>
-    kratosClient.getSelfServiceBrowserLoginRequest(r)
+    client.getSelfServiceBrowserLoginRequest(r)
   );
 };
 
@@ -88,7 +90,7 @@ const initRecover = async (
 ): Promise<RecoveryRequest | undefined> => {
   const fallback = "/self-service/browser/flows/recovery";
   return await init(request, fallback, (r) =>
-    kratosClient.getSelfServiceBrowserRecoveryRequest(r)
+    client.getSelfServiceBrowserRecoveryRequest(r)
   );
 };
 
@@ -98,13 +100,16 @@ async function init<R>(
   func: (request: string) => Promise<{ body: R; response: IncomingMessage }>
 ): Promise<R | undefined> {
   const fallback = `${process.env.REACT_APP_KRATOS_PUBLIC_URL}${fallbackPath}`;
-
+  console.log("KratosService: fallback: ", fallback);
+  console.log("KratosService: request: ", request);
   if (typeof request !== "string") {
     window.location.assign(fallback);
     return;
   }
 
   const { body, response } = await func(request);
+  console.log("KratosService: body: ", body);
+  console.log("KratosService: response: ", response.statusCode);
   if (!response.statusCode || response.statusCode / 100 !== 2) {
     window.location.assign(fallback);
   } else {

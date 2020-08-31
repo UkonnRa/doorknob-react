@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
-import { Registration, Login } from "./pages";
+import { Registration, Login, Callback } from "./pages";
 
 const App: FunctionComponent = () => {
   return (
@@ -16,6 +16,7 @@ const App: FunctionComponent = () => {
         </ul>
       </nav>
       <Switch>
+        <Route exact path="/callback" component={Callback} />
         <Route exact path="/auth/registration" component={Registration} />
         <Route exact path="/auth/login" component={Login} />
       </Switch>

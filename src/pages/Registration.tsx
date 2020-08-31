@@ -14,12 +14,14 @@ export const Registration: FunctionComponent = () => {
 
   const init = useCallback(async (): Promise<void> => {
     const b = await kratosService.initRegister(request);
+    console.log("Register body: ", b);
     if (b) {
       setBody(b);
     }
   }, [kratosService, request]);
 
   useEffect(() => {
+    console.log("init Register");
     init().catch((err) => console.error("Error: ", err));
   }, [init]);
 
