@@ -1,9 +1,10 @@
 import React, { FunctionComponent, useEffect } from "react";
-import { useAuth, useKratos } from "../services";
+import { useAuth, useKratos, useLogger } from "../services";
 
 export const Callback: FunctionComponent = () => {
   const auth = useAuth();
   const kratos = useKratos();
+  const logger = useLogger();
 
   useEffect(() => {
     kratos.client
@@ -14,11 +15,11 @@ export const Callback: FunctionComponent = () => {
         window.location.href = auth.getReferer() ?? "/";
       })
       .catch((e) => {
-        console.error("Error: ", e);
+        logger.error("Callback with Error: ", e);
         auth.setAuthed(false);
         auth.setReferer();
       });
-  }, [auth, kratos.client]);
+  }, [auth, kratos.client, logger]);
 
   return <div>Callback</div>;
 };

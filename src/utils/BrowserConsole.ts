@@ -1,15 +1,8 @@
 import { TransformableInfo } from "logform";
 import TransportStream from "winston-transport";
+import chalk from "chalk";
 
-enum LevelColors {
-  INFO = "darkturquoise",
-  WARN = "khaki",
-  ERROR = "tomato",
-}
-
-type Levels = "INFO" | "WARN" | "ERROR";
-
-const defaultColor = "color: inherit";
+type Levels = "DEBUG" | "INFO" | "WARN" | "ERROR";
 
 export class BrowserConsole extends TransportStream {
   constructor(options = {}) {
@@ -22,23 +15,30 @@ export class BrowserConsole extends TransportStream {
       ([k]) => k !== "level" && k !== "message"
     );
 
+    const chalkInst = new chalk.Instance({ level: 1 });
+    const level = info.level.toUpperCase() as Levels;
+
+    const colorString = (level: Levels) => {
+      switch (level) {
+        case "DEBUG":
+          return chalkInst.blackBright(level);
+        case "INFO":
+          return chalkInst.blueBright(level);
+        case "WARN":
+          return chalkInst.yellow(level);
+        case "ERROR":
+          return chalkInst.magenta(level);
+      }
+    };
+
     if (data.length > 0) {
       console.log(
-        `%c[%c${info.level.toUpperCase()}%c]:`,
-        defaultColor,
-        `color: ${LevelColors[info.level.toUpperCase() as Levels]};`,
-        defaultColor,
+        `[${colorString(level)}]`,
         info.message,
         Object.fromEntries(data)
       );
     } else {
-      console.log(
-        `%c[%c${info.level.toUpperCase()}%c]:`,
-        defaultColor,
-        `color: ${LevelColors[info.level.toUpperCase() as Levels]};`,
-        defaultColor,
-        info.message
-      );
+      console.log(`[${colorString(level)}]`, info.message);
     }
 
     next();

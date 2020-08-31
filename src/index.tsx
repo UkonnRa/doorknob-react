@@ -5,7 +5,12 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import { CssBaseline } from "@material-ui/core";
 import { Compose } from "./utils";
-import { KratosProvider, AuthProvider, SessionProvider } from "./services";
+import {
+  KratosProvider,
+  AuthProvider,
+  SessionProvider,
+  LoggerProvider,
+} from "./services";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -15,6 +20,7 @@ ReactDOM.render(
         KratosProvider,
         AuthProvider,
         SessionProvider,
+        LoggerProvider,
       ]}
     >
       <CssBaseline />

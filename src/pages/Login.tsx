@@ -3,7 +3,7 @@ import { FunctionComponent } from "react";
 import qs from "query-string";
 import { useLocation } from "react-router-dom";
 import { LoginRequest } from "@oryd/kratos-client";
-import { useKratos } from "../services";
+import { useKratos, useLogger } from "../services";
 import { KratosForm, KratosMessages } from "../components";
 
 export const Login: FunctionComponent = () => {
@@ -11,6 +11,7 @@ export const Login: FunctionComponent = () => {
   const location = useLocation();
   const { request } = qs.parse(location.search);
   const kratos = useKratos();
+  const logger = useLogger();
 
   useEffect(() => {
     kratos
@@ -20,8 +21,8 @@ export const Login: FunctionComponent = () => {
           setBody(b);
         }
       })
-      .catch((err) => console.error("Error: ", err));
-  }, [kratos, request]);
+      .catch((err) => logger.error("Error: ", err));
+  }, [kratos, logger, request]);
 
   const messages = body?.messages;
   const form = body?.methods?.password?.config;
