@@ -21,67 +21,74 @@ interface AuthService {
   refresh(): void;
 }
 
-class AuthServiceImpl implements AuthService {
-  getAuthed(): boolean {
-    return localStorage.getItem(LS_AUTHED) === "true";
-  }
+const AuthContext = createContext<AuthService | null>(null);
 
-  getReferer(): string | null {
-    return localStorage.getItem(LS_REFERER);
-  }
-
-  login(setReferer: boolean): void {
-    if (setReferer) {
-      this.setReferer(window.location.toString());
-    }
-    window.location.assign("/auth/login");
-  }
-
-  logout(): void {
-    this.setReferer(undefined);
-    window.location.assign(
-      `${process.env.REACT_APP_KRATOS_PUBLIC_URL}/self-service/browser/flows/logout`
-    );
-  }
-
-  refresh(): void {
-    this.setAuthed(false);
-    window.location.assign(
-      `${process.env.REACT_APP_KRATOS_PUBLIC_URL}/self-service/browser/flows/login?refresh=true&return_to=${process.env.REACT_APP_BASE_URL}/callback`
-    );
-  }
-
-  register(setReferer: boolean): void {
-    if (setReferer) {
-      this.setReferer(window.location.toString());
-    }
-    window.location.assign("/auth/registration");
-  }
-
-  setAuthed(isAuthed: boolean): void {
-    if (isAuthed) {
-      localStorage.setItem(LS_AUTHED, "true");
-    } else {
-      localStorage.removeItem(LS_AUTHED);
-    }
-  }
-
-  setReferer(referer?: string): void {
+export const AuthProvider: FunctionComponent = (props) => {
+  const setReferer = (referer?: string): void => {
     if (referer) {
       localStorage.setItem(LS_REFERER, referer);
     } else {
       localStorage.removeItem(LS_REFERER);
     }
-  }
-}
+  };
 
-const AuthContext = createContext<AuthService | null>(null);
+  const getReferer = (): string | null => {
+    return localStorage.getItem(LS_REFERER);
+  };
 
-export const AuthProvider: FunctionComponent = (props) => {
-  const service: AuthService = new AuthServiceImpl();
+  const setAuthed = (isAuthed: boolean): void => {
+    if (isAuthed) {
+      localStorage.setItem(LS_AUTHED, "true");
+    } else {
+      localStorage.removeItem(LS_AUTHED);
+    }
+  };
+
+  const getAuthed = (): boolean => {
+    return localStorage.getItem(LS_AUTHED) === "true";
+  };
+
+  const login = (doSetReferer: boolean): void => {
+    if (doSetReferer) {
+      setReferer(window.location.toString());
+    }
+    window.location.assign("/auth/login");
+  };
+
+  const register = (doSetReferer: boolean): void => {
+    if (doSetReferer) {
+      setReferer(window.location.toString());
+    }
+    window.location.assign("/auth/registration");
+  };
+
+  const logout = (): void => {
+    setReferer(undefined);
+    window.location.assign(
+      `${process.env.REACT_APP_KRATOS_PUBLIC_URL}/self-service/browser/flows/logout`
+    );
+  };
+
+  const refresh = (): void => {
+    setAuthed(false);
+    window.location.assign(
+      `${process.env.REACT_APP_KRATOS_PUBLIC_URL}/self-service/browser/flows/login?refresh=true&return_to=${process.env.REACT_APP_BASE_URL}/callback`
+    );
+  };
 
   return (
-    <AuthContext.Provider value={service}>
+    <AuthContext.Provider
+      value={{
+        setReferer,
+        getReferer,
+        setAuthed,
+        getAuthed,
+        login,
+        register,
+        logout,
+        refresh,
+      }}
+    >
       {props.children}
     </AuthContext.Provider>
   );

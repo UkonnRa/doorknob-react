@@ -12,6 +12,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "@oryd/hydra-client": "^1.7.0",
     "@oryd/kratos-client": "^0.4.6-alpha.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^10.4.9",

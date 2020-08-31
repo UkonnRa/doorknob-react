@@ -5,7 +5,7 @@ import { BrowserConsole } from "../utils";
 
 const LoggerContext = createContext<winston.Logger | null>(null);
 
-export const LoggerProvider: FunctionComponent = (props) => {
+export const LoggerProvider: FunctionComponent = ({ children }) => {
   const logger = winston.createLogger({
     transports: [
       new BrowserConsole({
@@ -20,9 +20,7 @@ export const LoggerProvider: FunctionComponent = (props) => {
   }
 
   return (
-    <LoggerContext.Provider value={logger}>
-      {props.children}
-    </LoggerContext.Provider>
+    <LoggerContext.Provider value={logger}>{children}</LoggerContext.Provider>
   );
 };
 

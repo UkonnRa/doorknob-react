@@ -25,18 +25,83 @@ interface KratosService {
 const KratosContext = createContext<KratosService | null>(null);
 const client = new PublicApi(process.env.REACT_APP_KRATOS_PUBLIC_URL);
 
-export const KratosProvider: FunctionComponent = (props) => {
-  const value: KratosService = {
-    client,
-    initLogin,
-    initRegister,
-    initSettings,
-    initVerify,
-    initRecover,
+export const KratosProvider: FunctionComponent = ({ children }) => {
+  const initLogin = async (
+    request: string | unknown
+  ): Promise<LoginRequest | undefined> => {
+    const fallback = `/self-service/browser/flows/login?return_to=${process.env.REACT_APP_BASE_URL}/callback`;
+    return await init(request, fallback, (r) =>
+      client.getSelfServiceBrowserLoginRequest(r)
+    );
   };
+
+  const initRegister = async (
+    request: string | unknown
+  ): Promise<RegistrationRequest | undefined> => {
+    const fallback = `/self-service/browser/flows/registration?return_to=${process.env.REACT_APP_BASE_URL}/callback`;
+    return await init(request, fallback, (r) =>
+      client.getSelfServiceBrowserRegistrationRequest(r)
+    );
+  };
+
+  const initSettings = async (
+    request: string | unknown
+  ): Promise<SettingsRequest | undefined> => {
+    const fallback = "/self-service/browser/flows/settings";
+    return await init(request, fallback, (r) =>
+      client.getSelfServiceBrowserSettingsRequest(r)
+    );
+  };
+
+  const initVerify = async (
+    request: string | unknown
+  ): Promise<VerificationRequest | undefined> => {
+    const fallbackPath = "/self-service/browser/flows/verification/init/email";
+    return await init(request, fallbackPath, (r) =>
+      client.getSelfServiceBrowserLoginRequest(r)
+    );
+  };
+
+  const initRecover = async (
+    request: string | unknown
+  ): Promise<RecoveryRequest | undefined> => {
+    const fallback = "/self-service/browser/flows/recovery";
+    return await init(request, fallback, (r) =>
+      client.getSelfServiceBrowserRecoveryRequest(r)
+    );
+  };
+
+  async function init<R>(
+    request: string | unknown,
+    fallbackPath: string,
+    func: (request: string) => Promise<{ body: R; response: IncomingMessage }>
+  ): Promise<R | undefined> {
+    const fallback = `${process.env.REACT_APP_KRATOS_PUBLIC_URL}${fallbackPath}`;
+    if (typeof request !== "string") {
+      window.location.assign(fallback);
+      return;
+    }
+
+    const { body, response } = await func(request);
+    if (!response.statusCode || response.statusCode / 100 !== 2) {
+      window.location.assign(fallback);
+    } else {
+      return body;
+    }
+  }
+
   return (
-    <KratosContext.Provider value={value}>
-      {props.children}
+    <KratosContext.Provider
+      value={{
+        client,
+        initLogin,
+        initRegister,
+        initSettings,
+        initVerify,
+        initRecover,
+      }}
+    >
+      {children}
     </KratosContext.Provider>
   );
 };
@@ -48,67 +113,3 @@ export const useKratos = (): KratosService => {
   }
   return service;
 };
-
-const initLogin = async (
-  request: string | unknown
-): Promise<LoginRequest | undefined> => {
-  const fallback = `/self-service/browser/flows/login?return_to=${process.env.REACT_APP_BASE_URL}/callback`;
-  return await init(request, fallback, (r) =>
-    client.getSelfServiceBrowserLoginRequest(r)
-  );
-};
-
-const initRegister = async (
-  request: string | unknown
-): Promise<RegistrationRequest | undefined> => {
-  const fallback = `/self-service/browser/flows/registration?return_to=${process.env.REACT_APP_BASE_URL}/callback`;
-  return await init(request, fallback, (r) =>
-    client.getSelfServiceBrowserRegistrationRequest(r)
-  );
-};
-
-const initSettings = async (
-  request: string | unknown
-): Promise<SettingsRequest | undefined> => {
-  const fallback = "/self-service/browser/flows/settings";
-  return await init(request, fallback, (r) =>
-    client.getSelfServiceBrowserSettingsRequest(r)
-  );
-};
-
-const initVerify = async (
-  request: string | unknown
-): Promise<VerificationRequest | undefined> => {
-  const fallbackPath = "/self-service/browser/flows/verification/init/email";
-  return await init(request, fallbackPath, (r) =>
-    client.getSelfServiceBrowserLoginRequest(r)
-  );
-};
-
-const initRecover = async (
-  request: string | unknown
-): Promise<RecoveryRequest | undefined> => {
-  const fallback = "/self-service/browser/flows/recovery";
-  return await init(request, fallback, (r) =>
-    client.getSelfServiceBrowserRecoveryRequest(r)
-  );
-};
-
-async function init<R>(
-  request: string | unknown,
-  fallbackPath: string,
-  func: (request: string) => Promise<{ body: R; response: IncomingMessage }>
-): Promise<R | undefined> {
-  const fallback = `${process.env.REACT_APP_KRATOS_PUBLIC_URL}${fallbackPath}`;
-  if (typeof request !== "string") {
-    window.location.assign(fallback);
-    return;
-  }
-
-  const { body, response } = await func(request);
-  if (!response.statusCode || response.statusCode / 100 !== 2) {
-    window.location.assign(fallback);
-  } else {
-    return body;
-  }
-}
