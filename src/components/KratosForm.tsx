@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const KratosForm: FunctionComponent<Props> = (props: Props) => {
-  const { action, messages = [], fields, submitLabel = "Submit" } = props;
+  const { action, messages = [], fields, submitLabel } = props;
   const fieldsSorted = sortFormFields({ fields });
   return (
     <>
@@ -37,19 +37,17 @@ const sortFormFields = ({ fields }: { fields: FormField[] }) => {
 const renderFormFields = ({ fields = [] }: { fields: FormField[] }) =>
   fields.map((field) => {
     const { name, type, required, value, messages = [] } = field;
-    const _required = required ? { required } : {};
-    const _label = FORM_LABELS[name]?.label;
-    const style = type === "hidden" ? { display: "none" } : {};
+    const label = FORM_LABELS[name]?.label;
     return (
-      <fieldset key={name} style={style}>
+      <fieldset key={name} hidden={type === "hidden"}>
         <label>
           <input
             type={type}
             name={name}
             defaultValue={value?.toString()}
-            {..._required}
+            required={required}
           />
-          {_label && <span>{_label}</span>}
+          {label && <span>{label}</span>}
         </label>
         <KratosMessages messages={messages} />
       </fieldset>

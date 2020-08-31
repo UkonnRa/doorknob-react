@@ -18,7 +18,7 @@ export const SessionProvider: React.FunctionComponent = ({ children }) => {
         .whoami()
         .then(({ body }) => {
           if (new Date() > body.expiresAt) {
-            return auth.refresh();
+            auth.refresh();
           } else {
             setSession(body);
           }

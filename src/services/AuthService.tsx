@@ -31,7 +31,6 @@ class AuthServiceImpl implements AuthService {
   }
 
   login(setReferer: boolean): void {
-    console.log("Auth: login, setReferer: ", setReferer);
     if (setReferer) {
       this.setReferer(window.location.toString());
     }
@@ -39,7 +38,6 @@ class AuthServiceImpl implements AuthService {
   }
 
   logout(): void {
-    console.log("Auth: logout");
     this.setReferer(undefined);
     window.location.assign(
       `${process.env.REACT_APP_KRATOS_PUBLIC_URL}/self-service/browser/flows/logout`
@@ -47,7 +45,6 @@ class AuthServiceImpl implements AuthService {
   }
 
   refresh(): void {
-    console.log("Auth: refresh");
     this.setAuthed(false);
     window.location.assign(
       `${process.env.REACT_APP_KRATOS_PUBLIC_URL}/self-service/browser/flows/login?refresh=true&return_to=${process.env.REACT_APP_BASE_URL}/callback`
@@ -55,7 +52,6 @@ class AuthServiceImpl implements AuthService {
   }
 
   register(setReferer: boolean): void {
-    console.log("Auth: register, setReferer: ", setReferer);
     if (setReferer) {
       this.setReferer(window.location.toString());
     }

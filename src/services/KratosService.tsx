@@ -100,16 +100,12 @@ async function init<R>(
   func: (request: string) => Promise<{ body: R; response: IncomingMessage }>
 ): Promise<R | undefined> {
   const fallback = `${process.env.REACT_APP_KRATOS_PUBLIC_URL}${fallbackPath}`;
-  console.log("KratosService: fallback: ", fallback);
-  console.log("KratosService: request: ", request);
   if (typeof request !== "string") {
     window.location.assign(fallback);
     return;
   }
 
   const { body, response } = await func(request);
-  console.log("KratosService: body: ", body);
-  console.log("KratosService: response: ", response.statusCode);
   if (!response.statusCode || response.statusCode / 100 !== 2) {
     window.location.assign(fallback);
   } else {
