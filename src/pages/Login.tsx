@@ -10,21 +10,22 @@ export const Login: FunctionComponent = () => {
   const [body, setBody] = useState<LoginRequest>();
   const location = useLocation();
   const { request } = qs.parse(location.search);
-  const kratosService = useKratos();
+  const kratos = useKratos();
 
   const init = useCallback(async (): Promise<void> => {
-    const b = await kratosService.initLogin(request);
+    const b = await kratos.initLogin(request);
     console.log("Login body: ", b);
     if (b) {
       setBody(b);
     }
-  }, [kratosService, request]);
+  }, [kratos, request]);
 
   useEffect(() => {
     console.log("init Login");
     init().catch((err) => console.error("Error: ", err));
   }, [init]);
 
+  console.log("Login Component: body: ", body);
   const messages = body?.messages;
   const form = body?.methods?.password?.config;
 
