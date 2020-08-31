@@ -7,7 +7,7 @@ interface Props {
   action: string;
   messages?: Message[];
   fields: FormField[];
-  submitLabel: string;
+  submitLabel?: string;
 }
 
 export const KratosForm: FunctionComponent<Props> = (props: Props) => {
@@ -19,7 +19,7 @@ export const KratosForm: FunctionComponent<Props> = (props: Props) => {
       {action && (
         <form action={action} style={{ margin: "60px 0" }} method="POST">
           {renderFormFields({ fields: fieldsSorted })}
-          <button type="submit">{submitLabel}</button>
+          {submitLabel && <button type="submit">{submitLabel}</button>}
         </form>
       )}
     </>

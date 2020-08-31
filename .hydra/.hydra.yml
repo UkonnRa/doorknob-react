@@ -1,0 +1,26 @@
+serve:
+  cookies:
+    same_site_mode: Lax
+log:
+  level: debug
+  format: text
+dsn: memory
+oidc:
+  subject_identifiers:
+    enabled:
+      - public
+urls:
+  self:
+    issuer: http://127.0.0.1:4444
+    public: http://127.0.0.1:4444
+  login: http://127.0.0.1:4455/auth/hydra/login
+  consent: http://127.0.0.1:4455/auth/hydra/consent
+  logout: http://127.0.0.1:4455/logout
+  post_logout_redirect: http://127.0.0.1:4455
+strategies:
+  access_token: jwt
+secrets:
+  system:
+    - this-is-the-primary-secret
+    - this-is-an-old-secret
+    - this-is-another-old-secret

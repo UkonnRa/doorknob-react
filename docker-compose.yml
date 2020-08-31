@@ -6,7 +6,7 @@ services:
       - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true&mode=rwc
     volumes:
       - kratos-sqlite:/var/lib/sqlite
-      - ./.kratos/config:/etc/config/kratos
+      - ./.kratos:/etc/config/kratos
     command: -c /etc/config/kratos/.kratos.yml migrate sql -e --yes
     restart: on-failure
     networks:
@@ -24,7 +24,20 @@ services:
     command: serve -c /etc/config/kratos/.kratos.yml --dev
     volumes:
       - kratos-sqlite:/var/lib/sqlite
-      - ./.kratos/config:/etc/config/kratos
+      - ./.kratos:/etc/config/kratos
+    networks:
+      - intranet
+  hydra:
+    image: oryd/hydra
+    ports:
+      - 4444:4444 # Public port
+      - 4445:4445 # Admin port
+      - 5555:5555 # Port for hydra token user
+    command:
+      serve all --dangerous-force-http
+    volumes:
+      - ./.hydra/.hydra.yml:/.hydra
+    restart: unless-stopped
     networks:
       - intranet
   nginx:

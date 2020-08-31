@@ -31,7 +31,8 @@
     "react-i18next": "^11.7.2",
     "react-query": "^2.12.1",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "^3.4.3"
+    "react-scripts": "^3.4.3",
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^3.10.1",
