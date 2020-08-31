@@ -13,7 +13,7 @@ export const SessionProvider: React.FunctionComponent = ({ children }) => {
   const auth = useAuth();
 
   useEffect(() => {
-    auth.state.isAuthenticated &&
+    auth.getAuthed() &&
       kratos.client
         .whoami()
         .then(({ body }) => {
@@ -27,7 +27,7 @@ export const SessionProvider: React.FunctionComponent = ({ children }) => {
           }
         })
         .catch((error) => {
-          auth.dispatch({ type: "UNSET_AUTH" });
+          auth.setAuthed(false);
           console.error(error);
           auth.login(false);
         });

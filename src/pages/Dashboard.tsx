@@ -8,10 +8,15 @@ export const Dashboard: FunctionComponent = () => {
 
   useEffect(() => {
     const user = session?.identity?.traits;
-    console.log("Dashboard: auth.state: ", auth.state);
+    console.log(
+      "Dashboard: authed: ",
+      auth.getAuthed(),
+      ", referer: ",
+      auth.getReferer()
+    );
     console.log("Dashboard: user: ", user);
 
-    if (!auth.state.isAuthenticated) auth.login(true);
+    if (!auth.getAuthed()) auth.login(true);
     setUser(user);
   }, [session]);
 
