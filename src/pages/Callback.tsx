@@ -11,17 +11,18 @@ export const Callback: FunctionComponent = () => {
       console.log("Whoami: body: ", body);
       auth.dispatch({ type: "SET_AUTH" });
       auth.dispatch({ type: "UNSET_REFERER" });
-      window.location.assign(auth.state.referer || "/");
+      window.location.href = "/";
     } catch (e) {
+      console.error("Error: ", e);
       auth.dispatch({ type: "UNSET_AUTH" });
       auth.dispatch({ type: "UNSET_REFERER" });
     }
-  }, [auth, kratos.client]);
+  }, []);
 
   useEffect(() => {
     console.log("init Callback");
-    init().catch((err) => console.error("Error: ", err));
-  });
+    init();
+  }, []);
 
   return <div>Callback</div>;
 };

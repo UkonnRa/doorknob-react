@@ -41,12 +41,16 @@ const initialState: AuthState = {
 const reducer: Reducer<AuthState, AuthAction> = (state, action) => {
   switch (action.type) {
     case "SET_REFERER":
+      console.log("Set referer to: ", window.location);
       return { ...state, referer: window.location.toString() };
     case "UNSET_REFERER":
+      console.log("Unset referer");
       return { ...state, referer: undefined };
     case "SET_AUTH":
+      console.log("Set auth");
       return { ...state, isAuthenticated: true };
     case "UNSET_AUTH":
+      console.log("Unset auth");
       return { ...state, isAuthenticated: false };
   }
 };
@@ -82,6 +86,7 @@ const login = (
   dispatch: React.Dispatch<AuthAction>,
   history: H.History<unknown>
 ): void => {
+  console.log("Auth: login, setReferer: ", setReferer);
   if (setReferer) {
     dispatch({ type: "SET_REFERER" });
   }
@@ -93,6 +98,7 @@ const register = (
   dispatch: React.Dispatch<AuthAction>,
   history: H.History<unknown>
 ): void => {
+  console.log("Auth: register, setReferer: ", setReferer);
   if (setReferer) {
     dispatch({ type: "SET_REFERER" });
   }
@@ -100,6 +106,7 @@ const register = (
 };
 
 const logout = (dispatch: React.Dispatch<AuthAction>): void => {
+  console.log("Auth: logout");
   dispatch({ type: "UNSET_AUTH" });
   window.location.assign(
     `${process.env.REACT_APP_KRATOS_PUBLIC_URL}/self-service/browser/flows/logout`
@@ -107,6 +114,7 @@ const logout = (dispatch: React.Dispatch<AuthAction>): void => {
 };
 
 const refresh = (dispatch: React.Dispatch<AuthAction>): void => {
+  console.log("Auth: refresh");
   dispatch({ type: "UNSET_AUTH" });
   window.location.assign(
     `${process.env.REACT_APP_KRATOS_PUBLIC_URL}/self-service/browser/flows/login?refresh=true&return_to=${process.env.REACT_APP_BASE_URL}/callback`

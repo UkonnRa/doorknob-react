@@ -16,10 +16,10 @@ const App: FunctionComponent = () => {
         </ul>
       </nav>
       <Switch>
-        <Route path="/" component={Dashboard} />
         <Route path="/callback" component={Callback} />
         <Route path="/auth/registration" component={Registration} />
         <Route path="/auth/login" component={Login} />
+        <Route exact path="/" component={Dashboard} />
       </Switch>
     </BrowserRouter>
   );
