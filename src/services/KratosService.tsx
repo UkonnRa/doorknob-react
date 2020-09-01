@@ -29,7 +29,7 @@ export const KratosProvider: FunctionComponent = ({ children }) => {
   const initLogin = async (
     request: string | unknown
   ): Promise<LoginRequest | undefined> => {
-    const fallback = `/self-service/browser/flows/login?return_to=${process.env.REACT_APP_BASE_URL}/callback`;
+    const fallback = "/self-service/browser/flows/login";
     return await init(request, fallback, (r) =>
       client.getSelfServiceBrowserLoginRequest(r)
     );
@@ -38,7 +38,7 @@ export const KratosProvider: FunctionComponent = ({ children }) => {
   const initRegister = async (
     request: string | unknown
   ): Promise<RegistrationRequest | undefined> => {
-    const fallback = `/self-service/browser/flows/registration?return_to=${process.env.REACT_APP_BASE_URL}/callback`;
+    const fallback = "/self-service/browser/flows/registration";
     return await init(request, fallback, (r) =>
       client.getSelfServiceBrowserRegistrationRequest(r)
     );

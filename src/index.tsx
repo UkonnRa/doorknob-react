@@ -10,17 +10,19 @@ import {
   AuthProvider,
   SessionProvider,
   LoggerProvider,
+  HydraProvider,
 } from "./services";
 
 ReactDOM.render(
   <React.StrictMode>
     <Compose
       components={[
+        LoggerProvider,
         BrowserRouter,
         KratosProvider,
+        HydraProvider,
         AuthProvider,
         SessionProvider,
-        LoggerProvider,
       ]}
     >
       <CssBaseline />

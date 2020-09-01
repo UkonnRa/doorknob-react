@@ -28,6 +28,7 @@
     "i18next-browser-languagedetector": "^6.0.1",
     "i18next-http-backend": "^1.0.18",
     "js-cookie": "^2.2.1",
+    "oidc-react": "^1.0.1",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",

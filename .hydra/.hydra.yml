@@ -1,6 +1,16 @@
 serve:
   cookies:
     same_site_mode: Lax
+  public:
+    cors:
+      enabled: true
+      allowed_origins:
+        - http://127.0.0.1:4455
+  admin:
+    cors:
+      enabled: true
+      allowed_origins:
+        - http://127.0.0.1:4455
 log:
   level: debug
   format: text
