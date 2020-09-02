@@ -23,7 +23,7 @@ urls:
   self:
     issuer: http://127.0.0.1:4444
     public: http://127.0.0.1:4444
-  login: http://127.0.0.1:4455/auth/hydra/login
+  login: http://127.0.0.1:8090/login
   consent: http://127.0.0.1:4455/auth/hydra/consent
   logout: http://127.0.0.1:4455/logout
   post_logout_redirect: http://127.0.0.1:4455

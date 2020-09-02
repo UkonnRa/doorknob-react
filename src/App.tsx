@@ -6,7 +6,6 @@ import {
   Callback,
   Dashboard,
   HydraCallback,
-  HydraLogin,
 } from "./pages";
 import { useAuth, useHydra } from "./services";
 import { useAuth as useOidc } from "oidc-react";
@@ -20,7 +19,7 @@ const oidcConfig: AuthProviderProps = {
   },
   authority: "http://127.0.0.1:4444",
   clientId: "absolem-ui",
-  redirectUri: "http://localhost:3000/hydra/callback",
+  redirectUri: "http://localhost:4455/hydra/callback",
 };
 
 const App: FunctionComponent = () => {
@@ -46,7 +45,6 @@ const App: FunctionComponent = () => {
       </nav>
       <Switch>
         <Route path="/temp" component={() => <div>Temp</div>} />
-        <Route path="/auth/hydra/login" component={HydraLogin} />
         <Route path="/hydra/callback" component={HydraCallback} />
         <Route path="/callback" component={Callback} />
         <Route path="/auth/registration" component={Registration} />

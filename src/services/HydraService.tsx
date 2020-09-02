@@ -50,7 +50,7 @@ export const HydraProvider: FunctionComponent = ({ children }) => {
     absolemUiClient.clientId = "absolem-ui";
     absolemUiClient.clientName = "Absolem Frontend Client";
     absolemUiClient.clientSecret = "test-secret";
-    absolemUiClient.redirectUris = ["http://localhost:3000/hydra/callback"];
+    absolemUiClient.redirectUris = ["http://localhost:4455/hydra/callback"];
     absolemUiClient.grantTypes = ["authorization_code", "refresh_token"];
     absolemUiClient.responseTypes = ["code"];
     absolemUiClient.scope = "openid offline profile:read";
@@ -69,7 +69,7 @@ export const HydraProvider: FunctionComponent = ({ children }) => {
     const state = randomBytes(48).toString("hex");
     window.sessionStorage.setItem(KEY_LOGIN_STATE, state);
     const returnTo = qs.stringifyUrl({
-      url: `${process.env.REACT_APP_BASE_URL}/hydra/login`,
+      url: `${process.env.REACT_APP_BASE_URL}/auth/hydra/login`,
       query: {
         hydra_login_state: state,
         login_challenge: challenge,
@@ -116,6 +116,9 @@ export const HydraProvider: FunctionComponent = ({ children }) => {
       return await initLogin(challenge);
     }
 
+    logger.info("Read cookies from domain: ", window.location);
+    logger.info("Cookies: ", Cookies.getJSON());
+    logger.info(`document.cookie: ${window}`);
     const kratosSessionCookie = Cookies.get("ory_kratos_session");
     if (!kratosSessionCookie) {
       logger.debug(
