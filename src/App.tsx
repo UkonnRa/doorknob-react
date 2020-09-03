@@ -7,6 +7,7 @@ import {
   Dashboard,
   HydraCallback,
   HydraPostCallback,
+  Consent,
 } from "./pages";
 import { useAuth } from "./services";
 import { AuthProvider as OidcProvider } from "oidc-react/build/src/AuthContext";
@@ -16,9 +17,10 @@ const oidcConfig: AuthProviderProps = {
   onSignIn: (user) => {
     console.log("Oidc User: ", user);
   },
-  authority: "http://127.0.0.1:4444",
+  authority: "http://127.0.0.1:4455/.ory/hydra/public",
   clientId: "absolem-ui",
   redirectUri: "http://127.0.0.1:4455",
+  scope: "openid profile:read",
 };
 
 const App: FunctionComponent = () => {
@@ -44,6 +46,7 @@ const App: FunctionComponent = () => {
         <Route path="/callback" component={Callback} />
         <Route path="/auth/registration" component={Registration} />
         <Route path="/auth/login" component={Login} />
+        <Route path="/auth/consent" component={Consent} />
         <Route
           exact
           path="/"

@@ -33,9 +33,9 @@ export const HydraPostCallback: FunctionComponent = () => {
         return fetch(url, {
           method: "POST",
           body: JSON.stringify(body),
-          redirect: "follow",
         });
       })
+      .then((resp) => window.location.assign(resp.url))
       .catch((err) => logger.error("Error: ", err));
   }, [kratos.client, logger, queries]);
 

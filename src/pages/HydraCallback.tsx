@@ -14,7 +14,9 @@ export const HydraCallback: FunctionComponent = () => {
       query: queries,
     });
 
-    fetch(url).catch((err) => logger.error("Error on hydra callback: ", err));
+    fetch(url)
+      .then((resp) => window.location.assign(resp.url))
+      .catch((err) => logger.error("Error on hydra callback: ", err));
   }, [logger, queries]);
 
   return <div>Hydra Callback</div>;
