@@ -10,7 +10,6 @@ import {
   AuthProvider,
   SessionProvider,
   LoggerProvider,
-  HydraProvider,
 } from "./services";
 
 ReactDOM.render(
@@ -20,7 +19,6 @@ ReactDOM.render(
         LoggerProvider,
         BrowserRouter,
         KratosProvider,
-        HydraProvider,
         AuthProvider,
         SessionProvider,
       ]}

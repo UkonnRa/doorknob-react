@@ -6,11 +6,10 @@ import {
   Callback,
   Dashboard,
   HydraCallback,
+  HydraPostCallback,
 } from "./pages";
-import { useAuth, useHydra } from "./services";
-import { useAuth as useOidc } from "oidc-react";
+import { useAuth } from "./services";
 import { AuthProvider as OidcProvider } from "oidc-react/build/src/AuthContext";
-import { Compose } from "./utils";
 import { AuthProviderProps } from "oidc-react/build/src/AuthContextInterface";
 
 const oidcConfig: AuthProviderProps = {
@@ -19,12 +18,11 @@ const oidcConfig: AuthProviderProps = {
   },
   authority: "http://127.0.0.1:4444",
   clientId: "absolem-ui",
-  redirectUri: "http://localhost:4455/hydra/callback",
+  redirectUri: "http://127.0.0.1:4455",
 };
 
 const App: FunctionComponent = () => {
   const auth = useAuth();
-  const hydra = useHydra();
 
   return (
     <BrowserRouter>
@@ -32,9 +30,6 @@ const App: FunctionComponent = () => {
         <ul>
           <li>
             <Link to="/auth/registration">registration</Link>
-          </li>
-          <li>
-            <button onClick={hydra.tryCreateClient}>Create Client</button>
           </li>
           {auth.getAuthed() && (
             <li>
@@ -44,14 +39,20 @@ const App: FunctionComponent = () => {
         </ul>
       </nav>
       <Switch>
-        <Route path="/temp" component={() => <div>Temp</div>} />
         <Route path="/hydra/callback" component={HydraCallback} />
+        <Route path="/hydra/post-callback" component={HydraPostCallback} />
         <Route path="/callback" component={Callback} />
         <Route path="/auth/registration" component={Registration} />
         <Route path="/auth/login" component={Login} />
-        <OidcProvider {...oidcConfig}>
-          <Route exact path="/" component={Dashboard} />
-        </OidcProvider>
+        <Route
+          exact
+          path="/"
+          component={() => (
+            <OidcProvider {...oidcConfig}>
+              <Dashboard />
+            </OidcProvider>
+          )}
+        />
       </Switch>
     </BrowserRouter>
   );

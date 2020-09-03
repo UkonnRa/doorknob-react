@@ -9,7 +9,12 @@ export const HydraCallback: FunctionComponent = () => {
   const logger = useLogger();
 
   useEffect(() => {
-    logger.info("HydraLogin start: ", queries);
+    const url = qs.stringifyUrl({
+      url: `${process.env.REACT_APP_BACKEND_URL}/login`,
+      query: queries,
+    });
+
+    fetch(url).catch((err) => logger.error("Error on hydra callback: ", err));
   }, [logger, queries]);
 
   return <div>Hydra Callback</div>;
