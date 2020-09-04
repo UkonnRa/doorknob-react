@@ -20,8 +20,13 @@ export const Consent: FunctionComponent = () => {
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/consent${location.search}`)
-      .then((resp) => resp.json())
-      .then((b) => setBody(b))
+      .then((resp) => {
+        if (resp.redirected) {
+          window.location.assign(resp.url);
+        } else {
+          return resp.json().then((b) => setBody(b));
+        }
+      })
       .catch((err) => logger.error("Error: ", err));
   }, [location.search, logger]);
 
