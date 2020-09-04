@@ -5,7 +5,6 @@ import { OAuth2Client } from "@oryd/hydra-client";
 import { useForm } from "react-hook-form";
 
 type ConsentData = {
-  csrfToken: string;
   challenge: string;
   requested_scope: string[];
   user: string;
@@ -34,7 +33,6 @@ export const Consent: FunctionComponent = () => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/post-consent`, {
       method: "POST",
       body: JSON.stringify({
-        _csrf: body?.csrfToken,
         challenge: body?.challenge,
         ...values,
       }),
@@ -48,7 +46,6 @@ export const Consent: FunctionComponent = () => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/post-consent`, {
       method: "POST",
       body: JSON.stringify({
-        _csrf: body?.csrfToken,
         challenge: body?.challenge,
         submit: "false",
       }),

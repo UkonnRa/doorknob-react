@@ -33,9 +33,9 @@
     "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-hook-form": "^6.7.1",
+    "react-hook-form": "^6.7.2",
     "react-i18next": "^11.7.2",
-    "react-query": "^2.14.1",
+    "react-query": "^2.15.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.3",
     "winston": "^3.3.3"
