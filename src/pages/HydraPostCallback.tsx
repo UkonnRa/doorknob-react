@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import qs from "query-string";
 import { useKratos, useLogger } from "../services";
+import { ObjectSerializer as KratosSerializer } from "@oryd/kratos-client";
 
 export const HydraPostCallback: FunctionComponent = () => {
   const location = useLocation();
@@ -24,7 +25,7 @@ export const HydraPostCallback: FunctionComponent = () => {
     kratos.client
       .whoami()
       .then(({ body }) => {
-        logger.info("whoami body: ", body);
+        console.log("whoami body: ", JSON.stringify(body, null, 4));
         const url = qs.stringifyUrl({
           url: `${process.env.REACT_APP_BACKEND_URL}/post-login`,
           query: { challenge },
@@ -32,7 +33,7 @@ export const HydraPostCallback: FunctionComponent = () => {
 
         return fetch(url, {
           method: "POST",
-          body: JSON.stringify(body),
+          body: JSON.stringify(KratosSerializer.serialize(body, "Session")),
         });
       })
       .then((resp) => window.location.assign(resp.url))
