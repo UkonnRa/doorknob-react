@@ -10,7 +10,7 @@ import {
   Consent,
   Settings,
   Recovery,
-  Error,
+  Error, Verification
 } from "./pages";
 import { withOidcSecure } from "@axa-fr/react-oidc-context";
 
@@ -27,6 +27,7 @@ const App: FunctionComponent = () => {
         <Route path="/login" component={Login} />
         <Route path="/consent" component={Consent} />
         <Route path="/error" component={Error} />
+        <Route path="/verify" component={Verification} />
         <Route exact path="/" component={withOidcSecure(Dashboard)} />
       </Switch>
     </BrowserRouter>

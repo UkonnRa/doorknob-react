@@ -62,9 +62,9 @@ export const KratosProvider: FunctionComponent = ({ children }) => {
   const initVerify = async (
     request: string | unknown
   ): Promise<VerificationRequest | undefined> => {
-    const fallbackPath = "/self-service/browser/flows/verification/init/email";
+    const fallbackPath = "/self-service/browser/flows/verification/email";
     return await init(request, fallbackPath, (r) =>
-      client.getSelfServiceBrowserLoginRequest(r)
+      client.getSelfServiceVerificationRequest(r)
     );
   };
 

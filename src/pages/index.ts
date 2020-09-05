@@ -8,3 +8,4 @@ export { HydraPostCallback } from "./HydraPostCallback";
 export { Consent } from "./Consent";
 export { Recovery } from "./Recovery";
 export { Error } from "./Error";
+export { Verification } from "./Verification";
