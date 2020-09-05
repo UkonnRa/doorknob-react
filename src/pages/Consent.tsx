@@ -37,6 +37,7 @@ export const Consent: FunctionComponent = () => {
           method="POST"
         >
           <input
+            readOnly
             type="text"
             hidden={true}
             value={body?.challenge}
