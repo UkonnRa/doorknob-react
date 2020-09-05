@@ -22,9 +22,9 @@ export const HydraPostCallback: FunctionComponent = () => {
       return;
     }
 
-    kratos.client
+    kratos
       .whoami()
-      .then(({ body }) => {
+      .then((body) => {
         console.log("whoami body: ", JSON.stringify(body, null, 4));
         const url = qs.stringifyUrl({
           url: `${process.env.REACT_APP_BACKEND_URL}/post-login`,
@@ -38,7 +38,7 @@ export const HydraPostCallback: FunctionComponent = () => {
       })
       .then((resp) => window.location.assign(resp.url))
       .catch((err) => logger.error("Error: ", err));
-  }, [kratos.client, logger, queries]);
+  }, [kratos, logger, queries]);
 
   return <div>Hydra Post Callback</div>;
 };

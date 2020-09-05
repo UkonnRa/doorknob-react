@@ -1,16 +1,18 @@
 import React, { createContext, FunctionComponent, useContext } from "react";
 import {
+  ErrorContainer,
   LoginRequest,
   PublicApi,
   RecoveryRequest,
   RegistrationRequest,
+  Session,
   SettingsRequest,
   VerificationRequest,
 } from "@oryd/kratos-client";
 import { IncomingMessage } from "http";
 
 interface KratosService {
-  client: PublicApi;
+  whoami(): Promise<Session | undefined>;
   initLogin(request: string | unknown): Promise<LoginRequest | undefined>;
   initRegister(
     request: string | unknown
@@ -20,12 +22,16 @@ interface KratosService {
     request: string | unknown
   ): Promise<VerificationRequest | undefined>;
   initRecover(request: string | unknown): Promise<RecoveryRequest | undefined>;
+  getError(error: string | unknown): Promise<ErrorContainer | undefined>;
 }
 
 const KratosContext = createContext<KratosService | null>(null);
 const client = new PublicApi(process.env.REACT_APP_KRATOS_PUBLIC_URL);
 
 export const KratosProvider: FunctionComponent = ({ children }) => {
+  const whoami = (): Promise<Session | undefined> =>
+    client.whoami().then(({ body }) => body);
+
   const initLogin = async (
     request: string | unknown
   ): Promise<LoginRequest | undefined> => {
@@ -71,6 +77,11 @@ export const KratosProvider: FunctionComponent = ({ children }) => {
     );
   };
 
+  const getError = async (
+    error: string | unknown
+  ): Promise<ErrorContainer | undefined> =>
+    init(error, "/", (e) => client.getSelfServiceError(e));
+
   async function init<R>(
     request: string | unknown,
     fallbackPath: string,
@@ -93,12 +104,13 @@ export const KratosProvider: FunctionComponent = ({ children }) => {
   return (
     <KratosContext.Provider
       value={{
-        client,
+        whoami,
         initLogin,
         initRegister,
         initSettings,
         initVerify,
         initRecover,
+        getError,
       }}
     >
       {children}

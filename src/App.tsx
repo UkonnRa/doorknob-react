@@ -9,6 +9,8 @@ import {
   HydraPostCallback,
   Consent,
   Settings,
+  Recovery,
+  Error,
 } from "./pages";
 import { withOidcSecure } from "@axa-fr/react-oidc-context";
 
@@ -20,9 +22,11 @@ const App: FunctionComponent = () => {
         <Route path="/hydra/post-callback" component={HydraPostCallback} />
         <Route path="/callback" component={withOidcSecure(Callback)} />
         <Route path="/registration" component={Registration} />
+        <Route path="/recovery" component={Recovery} />
         <Route path="/settings" component={Settings} />
         <Route path="/login" component={Login} />
         <Route path="/consent" component={Consent} />
+        <Route path="/error" component={Error} />
         <Route exact path="/" component={withOidcSecure(Dashboard)} />
       </Switch>
     </BrowserRouter>

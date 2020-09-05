@@ -6,3 +6,5 @@ export { Dashboard } from "./Dashboard";
 export { HydraCallback } from "./HydraCallback";
 export { HydraPostCallback } from "./HydraPostCallback";
 export { Consent } from "./Consent";
+export { Recovery } from "./Recovery";
+export { Error } from "./Error";
