@@ -17,7 +17,7 @@ export const KratosForm: FunctionComponent<Props> = (props: Props) => {
     <>
       {!!messages?.length && <KratosMessages messages={messages} />}
       {action && (
-        <form action={action} style={{ margin: "60px 0" }} method="POST">
+        <form action={action} method="POST">
           {renderFormFields({ fields: fieldsSorted })}
           {submitLabel && <button type="submit">{submitLabel}</button>}
         </form>

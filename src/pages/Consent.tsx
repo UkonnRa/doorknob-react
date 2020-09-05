@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useLogger } from "../services";
 import { OAuth2Client } from "@oryd/hydra-client";
-import { useForm } from "react-hook-form";
 
 type ConsentData = {
   challenge: string;
@@ -15,7 +14,6 @@ export const Consent: FunctionComponent = () => {
   const [body, setBody] = useState<ConsentData>();
   const location = useLocation();
   const logger = useLogger();
-  const { handleSubmit, register } = useForm();
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/consent${location.search}`)
@@ -29,48 +27,27 @@ export const Consent: FunctionComponent = () => {
       .catch((err) => logger.error("Error: ", err));
   }, [location.search, logger]);
 
-  const onSubmit = (values: Record<string, unknown>) => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/post-consent`, {
-      method: "POST",
-      body: JSON.stringify({
-        challenge: body?.challenge,
-        ...values,
-      }),
-    }).then((resp) => {
-      console.log("resp: ", resp);
-      window.location.assign(resp.url);
-    });
-  };
-
-  const onDeny = () => {
-    fetch(`${process.env.REACT_APP_BACKEND_URL}/post-consent`, {
-      method: "POST",
-      body: JSON.stringify({
-        challenge: body?.challenge,
-        submit: "false",
-      }),
-    }).then((resp) => {
-      console.log("resp: ", resp);
-      window.location.assign(resp.url);
-    });
-  };
-
   const render = () => {
     if (!body) {
       return <div>Loading...</div>;
     } else {
       return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          action={`${process.env.REACT_APP_BACKEND_URL}/post-consent`}
+          method="POST"
+        >
+          <input
+            type="text"
+            hidden={true}
+            value={body?.challenge}
+            name="challenge"
+          />
+
           <div>requested scopes:</div>
           {body.requested_scope.map((s) => (
             <label key={s}>
               <span>{s}</span>
-              <input
-                type="checkbox"
-                value={s}
-                name="grant_scope"
-                ref={register}
-              />
+              <input type="checkbox" value={s} name="scopes" />
             </label>
           ))}
 
@@ -93,21 +70,16 @@ export const Consent: FunctionComponent = () => {
                 id="remember"
                 value="true"
                 name="remember"
-                ref={register}
               />
             </label>
           </div>
 
-          <button
-            type="submit"
-            id="accept"
-            name="submit"
-            value="true"
-            ref={register}
-          >
+          <button type="submit" id="accept" name="submit" value="true">
             Allow access
           </button>
-          <button onClick={onDeny}>Deny access</button>
+          <button type="submit" id="accept" name="submit" value="false">
+            Deny access
+          </button>
         </form>
       );
     }
