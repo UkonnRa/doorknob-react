@@ -17,7 +17,7 @@ interface SnackProps {
 }
 
 interface Props extends SnackProps {
-  handleClose: () => void;
+  onClose: () => void;
 }
 
 const Context = createContext<Service | null>(null);
@@ -26,7 +26,7 @@ const RenderSnack: FunctionComponent<Props> = ({
   id,
   message,
   open,
-  handleClose,
+  onClose,
 }: Props) => {
   const messageId = `message-${id}`;
   return (
@@ -36,8 +36,8 @@ const RenderSnack: FunctionComponent<Props> = ({
         horizontal: "left",
       }}
       open={open}
-      autoHideDuration={6000}
-      onClose={handleClose}
+      autoHideDuration={5000}
+      onClose={onClose}
       message={<span id={messageId}>{message}</span>}
     />
   );
@@ -84,7 +84,7 @@ export const SnackProvider: FunctionComponent = ({ children }) => {
   return (
     <Context.Provider value={{ createSnack }}>
       {current && (
-        <RenderSnack key={current.id} handleClose={handleClose} {...current} />
+        <RenderSnack key={current.id} onClose={handleClose} {...current} />
       )}
       {children}
     </Context.Provider>

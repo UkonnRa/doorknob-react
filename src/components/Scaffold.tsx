@@ -19,6 +19,7 @@ export const Scaffold: FunctionComponent = ({ children }) => {
       className={classes.root}
       justify="center"
       alignItems="center"
+      direction="column"
     >
       {children}
     </Grid>

@@ -5,7 +5,7 @@ interface FormLabel {
 
 export const FORM_LABELS: { [key: string]: FormLabel } = {
   to_verify: {
-    label: "Email",
+    label: "EMAIL",
     priority: 100,
   },
   csrf_token: {
@@ -13,27 +13,27 @@ export const FORM_LABELS: { [key: string]: FormLabel } = {
     priority: 100,
   },
   "traits.email": {
-    label: "Email",
+    label: "EMAIL",
     priority: 90,
   },
   "traits.username": {
-    label: "Username",
+    label: "USERNAME",
     priority: 89,
   },
   "traits.nickname": {
-    label: "Nickname",
+    label: "NICKNAME",
     priority: 88,
   },
   email: {
-    label: "Email",
+    label: "EMAIL",
     priority: 80,
   },
   identifier: {
-    label: "Identifier",
+    label: "IDENTIFIER",
     priority: 80,
   },
   password: {
-    label: "Password",
+    label: "PASSWORD",
     priority: 80,
   },
 };

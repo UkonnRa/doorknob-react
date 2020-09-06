@@ -1,5 +1,12 @@
 {
   "LOGIN_SUBMIT": "登录",
   "CHANGE_LANGUAGE": "更换语言",
-  "INIT_LOGIN_FAILED": "初始化登录失败"
+  "INIT_LOGIN_FAILED": "初始化登录失败",
+  "PROJECT_TITLE": "Wonderland DoorKnob 统一登录系统",
+  "EMAIL": "电子邮箱",
+  "USERNAME": "用户名",
+  "NICKNAME": "昵称",
+  "IDENTIFIER": "用户ID",
+  "IDENTIFIER_INFO": "包括电子邮箱、电话号码等",
+  "PASSWORD": "密码"
 }

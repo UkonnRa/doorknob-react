@@ -2,6 +2,8 @@ import React, { FunctionComponent } from "react";
 import { FormField, Message } from "@oryd/kratos-client";
 import { KratosMessages } from "./index";
 import { FORM_LABELS } from "../constants/kratos";
+import { Button, TextField } from "@material-ui/core";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   action: string;
@@ -19,7 +21,7 @@ export const KratosForm: FunctionComponent<Props> = (props: Props) => {
       {action && (
         <form action={action} method="POST">
           {renderFormFields({ fields: fieldsSorted })}
-          {submitLabel && <button type="submit">{submitLabel}</button>}
+          {submitLabel && <Button type="submit">{submitLabel}</Button>}
         </form>
       )}
     </>
@@ -36,20 +38,20 @@ const sortFormFields = ({ fields }: { fields: FormField[] }) => {
 
 const renderFormFields = ({ fields = [] }: { fields: FormField[] }) =>
   fields.map((field) => {
+    const { t } = useTranslation();
     const { name, type, required, value, messages = [] } = field;
     const label = FORM_LABELS[name]?.label;
     return (
-      <fieldset key={name} hidden={type === "hidden"}>
-        <label>
-          <input
-            type={type}
-            name={name}
-            defaultValue={value?.toString()}
-            required={required}
-          />
-          {label && <span>{label}</span>}
-        </label>
+      <div key={name}>
+        <TextField
+          hidden={type === "hidden"}
+          type={type}
+          name={name}
+          defaultValue={value?.toString()}
+          required={required}
+          label={t(label)}
+        />
         <KratosMessages messages={messages} />
-      </fieldset>
+      </div>
     );
   });

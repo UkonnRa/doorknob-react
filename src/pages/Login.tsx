@@ -3,10 +3,18 @@ import { FunctionComponent } from "react";
 import qs from "query-string";
 import { useLocation } from "react-router-dom";
 import { LoginRequest } from "@oryd/kratos-client";
-import { useKratos, useLogger, useSnack } from "../services";
+import { useKratos, useSnack } from "../services";
 import { KratosForm, KratosMessages } from "../components";
 import { useTranslation } from "react-i18next";
-import { Button, Menu, MenuItem } from "@material-ui/core";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  IconButton,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 export const Login: FunctionComponent = () => {
   const snack = useSnack();
@@ -14,23 +22,18 @@ export const Login: FunctionComponent = () => {
   const location = useLocation();
   const { request } = qs.parse(location.search);
   const kratos = useKratos();
-  const logger = useLogger();
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
     kratos
       .initLogin(request)
-      .then((b) => {
-        if (b) {
-          snack.createSnack(JSON.stringify(b).substring(0, 10));
-          setBody(b);
-        }
-      })
+      .then((b) => b && setBody(b))
       .catch(() => {
         snack.createSnack(t("INIT_LOGIN_FAILED"));
         window.location.assign("/login");
       });
-  }, [kratos, logger, request, snack, t]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [kratos, request]);
 
   const messages = body?.messages;
   const form = body?.methods?.password?.config;
@@ -51,7 +54,27 @@ export const Login: FunctionComponent = () => {
 
   return (
     <>
-      <Button onClick={handleClick}>{t("CHANGE_LANGUAGE")}</Button>
+      <Card>
+        <CardHeader
+          title={t("PROJECT_TITLE")}
+          action={
+            <IconButton onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+          }
+        />
+        <CardContent>
+          {messages && <KratosMessages messages={messages} />}
+          {form && (
+            <KratosForm
+              submitLabel={t("LOGIN_SUBMIT")}
+              action={form.action}
+              fields={form.fields}
+              messages={form.messages}
+            />
+          )}
+        </CardContent>
+      </Card>
       <Menu
         anchorEl={anchorEl}
         keepMounted
@@ -61,15 +84,6 @@ export const Login: FunctionComponent = () => {
         <MenuItem onClick={onZhHans}>中文</MenuItem>
         <MenuItem onClick={onEn}>English</MenuItem>
       </Menu>
-      {messages && <KratosMessages messages={messages} />}
-      {form && (
-        <KratosForm
-          submitLabel={t("LOGIN_SUBMIT")}
-          action={form.action}
-          fields={form.fields}
-          messages={form.messages}
-        />
-      )}
     </>
   );
 };
