@@ -3,12 +3,13 @@ import { FunctionComponent } from "react";
 import qs from "query-string";
 import { useLocation } from "react-router-dom";
 import { LoginRequest } from "@oryd/kratos-client";
-import { useKratos, useLogger } from "../services";
+import { useKratos, useLogger, useSnack } from "../services";
 import { KratosForm, KratosMessages } from "../components";
 import { useTranslation } from "react-i18next";
 import { Button, Menu, MenuItem } from "@material-ui/core";
 
 export const Login: FunctionComponent = () => {
+  const snack = useSnack();
   const [body, setBody] = useState<LoginRequest>();
   const location = useLocation();
   const { request } = qs.parse(location.search);
@@ -21,11 +22,15 @@ export const Login: FunctionComponent = () => {
       .initLogin(request)
       .then((b) => {
         if (b) {
+          snack.createSnack(JSON.stringify(b).substring(0, 10));
           setBody(b);
         }
       })
-      .catch((err) => logger.error("Error: ", err));
-  }, [kratos, logger, request]);
+      .catch(() => {
+        snack.createSnack(t("INIT_LOGIN_FAILED"));
+        window.location.assign("/login");
+      });
+  }, [kratos, logger, request, snack, t]);
 
   const messages = body?.messages;
   const form = body?.methods?.password?.config;

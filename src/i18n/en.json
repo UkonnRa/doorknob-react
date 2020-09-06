@@ -1,4 +1,5 @@
 {
   "LOGIN_SUBMIT": "Login",
-  "CHANGE_LANGUAGE": "Change Language"
+  "CHANGE_LANGUAGE": "Change Language",
+  "INIT_LOGIN_FAILED": "Failed to initialize login"
 }

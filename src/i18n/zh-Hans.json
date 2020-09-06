@@ -1,4 +1,5 @@
 {
   "LOGIN_SUBMIT": "登录",
-  "CHANGE_LANGUAGE": "更换语言"
+  "CHANGE_LANGUAGE": "更换语言",
+  "INIT_LOGIN_FAILED": "初始化登录失败"
 }
