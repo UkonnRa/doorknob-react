@@ -7,6 +7,8 @@ import { CssBaseline } from "@material-ui/core";
 import { Compose } from "./utils";
 import { KratosProvider, LoggerProvider } from "./services";
 import { AuthenticationProvider } from "@axa-fr/react-oidc-context";
+import i18n from "./i18n";
+import { I18nextProvider } from "react-i18next";
 
 const oidcConfig = {
   client_id: "absolem-ui",
@@ -18,14 +20,14 @@ const oidcConfig = {
 };
 
 ReactDOM.render(
-  <React.StrictMode>
-    <Compose components={[LoggerProvider, BrowserRouter, KratosProvider]}>
-      <CssBaseline />
+  <Compose components={[LoggerProvider, BrowserRouter, KratosProvider]}>
+    <CssBaseline />
+    <I18nextProvider i18n={i18n}>
       <AuthenticationProvider configuration={oidcConfig}>
         <App />
       </AuthenticationProvider>
-    </Compose>
-  </React.StrictMode>,
+    </I18nextProvider>
+  </Compose>,
   document.getElementById("root")
 );
 

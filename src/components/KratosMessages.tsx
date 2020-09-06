@@ -7,12 +7,13 @@ interface Props {
 
 export const KratosMessages: FunctionComponent<Props> = ({
   messages,
-}: Props) => (
-  <div className="messages">
-    {messages.map(({ text, id, type }) => (
-      <div key={id} className={`message ${type}`}>
-        {text}
-      </div>
-    ))}
-  </div>
-);
+}: Props) => {
+  console.log("messages: ", messages);
+  return (
+    <div className="messages">
+      {messages.map(({ text, id }) => (
+        <div key={id}>{text}</div>
+      ))}
+    </div>
+  );
+};
