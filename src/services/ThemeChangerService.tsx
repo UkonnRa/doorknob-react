@@ -31,9 +31,14 @@ const PALETTES: Record<PaletteType, PaletteOptions> = {
 export const ThemeChangerProvider: FunctionComponent = ({
   children,
 }: PropsWithChildren<unknown>) => {
-  const [themeType, setThemeType] = useState<PaletteType>("dark");
+  const [themeType, setThemeType] = useState<PaletteType>(
+    (localStorage.getItem("themeType") as PaletteType) ?? "dark"
+  );
 
-  const changeTheme = (themeType: PaletteType) => setThemeType(themeType);
+  const changeTheme = (themeType: PaletteType) => {
+    localStorage.setItem("themeType", themeType);
+    setThemeType(themeType);
+  };
 
   return (
     <Context.Provider value={{ themeType, changeTheme }}>

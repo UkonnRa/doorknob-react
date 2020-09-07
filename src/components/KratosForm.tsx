@@ -57,23 +57,25 @@ export const KratosForm: FunctionComponent<Props> = ({
   return (
     <Card className={className}>
       <CardHeader title={title} action={titleMenu} />
-      <form className={classes.root} action={actionURL} method="POST">
-        <CardContent>
-          <Grid
-            container
-            direction="column"
-            justify="center"
-            alignItems="center"
-          >
-            {renderFormFields({ fields: fieldsSorted })}
-            {messages && <KratosMessages messages={messages} />}
-          </Grid>
-        </CardContent>
-        <CardActions>
-          <Button type="submit">{submitLabel}</Button>
-          {alterActions}
-        </CardActions>
-      </form>
+      <Grid container direction="column" alignContent="center">
+        <form className={classes.root} action={actionURL} method="POST">
+          <CardContent>
+            <Grid
+              container
+              direction="column"
+              justify="center"
+              alignItems="center"
+            >
+              {renderFormFields({ fields: fieldsSorted })}
+              {messages && <KratosMessages messages={messages} />}
+            </Grid>
+          </CardContent>
+          <CardActions>
+            <Button type="submit">{submitLabel}</Button>
+            {alterActions}
+          </CardActions>
+        </form>
+      </Grid>
     </Card>
   );
 };
@@ -93,16 +95,19 @@ const renderFormFields = ({ fields = [] }: { fields: FormField[] }) =>
     const label = FORM_LABELS[name]?.label;
     const classes = useStyles();
     return (
-      <div key={name}>
+      <>
         <TextField
-          className={`${classes.field} ${type === "hidden" && classes.hidden}`}
+          key={name}
+          className={`${classes.field} ${
+            type === "hidden" ? classes.hidden : ""
+          }`}
           type={type}
           name={name}
           defaultValue={value?.toString()}
           required={required}
           label={t(label)}
         />
-        <KratosMessages messages={messages} />
-      </div>
+        {messages && <KratosMessages messages={messages} />}
+      </>
     );
   });

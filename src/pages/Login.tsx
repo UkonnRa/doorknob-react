@@ -46,17 +46,13 @@ export const Login: FunctionComponent = () => {
         window.location.assign("/login");
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [kratos, request]);
+  }, []);
 
   const form = body?.methods?.password?.config;
 
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | undefined>(
     undefined
   );
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
 
   return (
     <>
@@ -67,7 +63,10 @@ export const Login: FunctionComponent = () => {
             title={t("PROJECT_TITLE")}
             titleMenu={
               <>
-                <IconButton color="primary" onClick={handleClick}>
+                <IconButton
+                  color="primary"
+                  onClick={(event) => setAnchorEl(event.currentTarget)}
+                >
                   <MoreVertIcon />
                 </IconButton>
                 <IconButton

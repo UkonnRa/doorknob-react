@@ -5,6 +5,24 @@ import { useLocation } from "react-router-dom";
 import { RegistrationRequest } from "@oryd/kratos-client";
 import { useKratos, useLogger } from "../services";
 import { KratosForm, KratosMessages } from "../components";
+import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "@material-ui/core";
+
+const useStyles = makeStyles((theme) => {
+  return {
+    root: {
+      [theme.breakpoints.down("sm")]: {
+        width: "90%",
+      },
+      [theme.breakpoints.up("md")]: {
+        width: "65%",
+      },
+      [theme.breakpoints.up("lg")]: {
+        width: "40%",
+      },
+    },
+  };
+});
 
 export const Registration: FunctionComponent = () => {
   const [body, setBody] = useState<RegistrationRequest>();
@@ -12,6 +30,7 @@ export const Registration: FunctionComponent = () => {
   const { request } = qs.parse(location.search);
   const kratos = useKratos();
   const logger = useLogger();
+  const classes = useStyles();
 
   useEffect(() => {
     kratos
@@ -32,11 +51,17 @@ export const Registration: FunctionComponent = () => {
       {messages && <KratosMessages messages={messages} />}
       {form && (
         <KratosForm
+          className={classes.root}
           submitLabel="Register"
           actionURL={form.action}
           fields={form.fields}
           messages={form.messages}
           title={"User Registration"}
+          alterActions={
+            <div>
+              Already have a account? <Link href="/login">Log in</Link>
+            </div>
+          }
         />
       )}
     </>
