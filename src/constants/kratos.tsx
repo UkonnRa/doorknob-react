@@ -29,7 +29,7 @@ export const FORM_LABELS: { [key: string]: FormLabel } = {
     priority: 80,
   },
   identifier: {
-    label: "IDENTIFIER",
+    label: "IDENTIFIER.NAME",
     priority: 80,
   },
   password: {

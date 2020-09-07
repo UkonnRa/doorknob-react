@@ -2,11 +2,13 @@
   "LOGIN_SUBMIT": "Login",
   "CHANGE_LANGUAGE": "Change Language",
   "INIT_LOGIN_FAILED": "Failed to initialize login",
-  "PROJECT_TITLE": "Wonderland DoorKnob OSS System",
+  "PROJECT_TITLE": "Wonderland DoorKnob SSO System",
   "EMAIL": "E-Mail",
   "USERNAME": "Username",
   "NICKNAME": "Nickname",
-  "IDENTIFIER": "Identifier",
-  "IDENTIFIER_INFO": "Including E-Mail, Phone number, etc.",
-  "PASSWORD": "Password"
+  "PASSWORD": "Password",
+  "IDENTIFIER": {
+    "NAME": "Identifier",
+    "INFO": "Including E-Mail, Phone number, etc."
+  }
 }

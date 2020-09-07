@@ -25,7 +25,7 @@ interface KratosService {
   getError(error: string | unknown): Promise<ErrorContainer | undefined>;
 }
 
-const KratosContext = createContext<KratosService | null>(null);
+const Context = createContext<KratosService | null>(null);
 const client = new PublicApi(process.env.REACT_APP_KRATOS_PUBLIC_URL);
 
 export const KratosProvider: FunctionComponent = ({ children }) => {
@@ -102,7 +102,7 @@ export const KratosProvider: FunctionComponent = ({ children }) => {
   }
 
   return (
-    <KratosContext.Provider
+    <Context.Provider
       value={{
         whoami,
         initLogin,
@@ -114,12 +114,12 @@ export const KratosProvider: FunctionComponent = ({ children }) => {
       }}
     >
       {children}
-    </KratosContext.Provider>
+    </Context.Provider>
   );
 };
 
 export const useKratos = (): KratosService => {
-  const service = useContext(KratosContext);
+  const service = useContext(Context);
   if (!service) {
     throw Error("Please initialize `KratosProvider` before `useKratos`");
   }

@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from "react";
 import { Message } from "@oryd/kratos-client";
+import { Typography } from "@material-ui/core";
 
 interface Props {
   messages: Message[];
@@ -12,7 +13,9 @@ export const KratosMessages: FunctionComponent<Props> = ({
   return (
     <div className="messages">
       {messages.map(({ text, id }) => (
-        <div key={id}>{text}</div>
+        <Typography key={id} color="error">
+          {text}
+        </Typography>
       ))}
     </div>
   );
