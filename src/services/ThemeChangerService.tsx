@@ -2,6 +2,7 @@ import { createMuiTheme, PaletteType, ThemeProvider } from "@material-ui/core";
 import React, {
   createContext,
   FunctionComponent,
+  PropsWithChildren,
   useContext,
   useState,
 } from "react";
@@ -27,7 +28,9 @@ const PALETTES: Record<PaletteType, PaletteOptions> = {
   },
 };
 
-export const ThemeChangerProvider: FunctionComponent = ({ children }) => {
+export const ThemeChangerProvider: FunctionComponent = ({
+  children,
+}: PropsWithChildren<unknown>) => {
   const [themeType, setThemeType] = useState<PaletteType>("dark");
 
   const changeTheme = (themeType: PaletteType) => setThemeType(themeType);

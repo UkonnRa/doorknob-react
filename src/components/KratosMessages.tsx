@@ -9,11 +9,10 @@ interface Props {
 export const KratosMessages: FunctionComponent<Props> = ({
   messages,
 }: Props) => {
-  console.log("messages: ", messages);
   return (
-    <div className="messages">
-      {messages.map(({ text, id }) => (
-        <Typography key={id} color="error">
+    <div>
+      {messages.map(({ text, id, type }) => (
+        <Typography key={id} color={type === "error" ? "error" : "primary"}>
           {text}
         </Typography>
       ))}

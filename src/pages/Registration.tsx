@@ -33,9 +33,10 @@ export const Registration: FunctionComponent = () => {
       {form && (
         <KratosForm
           submitLabel="Register"
-          action={form.action}
+          actionURL={form.action}
           fields={form.fields}
           messages={form.messages}
+          title={"User Registration"}
         />
       )}
     </>

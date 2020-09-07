@@ -41,9 +41,10 @@ export const Settings: FunctionComponent = () => {
           )}
           <KratosForm
             submitLabel="Profile Settings"
-            action={profileSettings.action}
+            actionURL={profileSettings.action}
             fields={profileSettings.fields}
             messages={profileSettings.messages}
+            title={"Profile Settings"}
           />
         </div>
       )}
@@ -55,9 +56,10 @@ export const Settings: FunctionComponent = () => {
           )}
           <KratosForm
             submitLabel="Password Settings"
-            action={passwordSettings.action}
+            actionURL={passwordSettings.action}
             fields={passwordSettings.fields}
             messages={passwordSettings.messages}
+            title={"Password Settings"}
           />
         </div>
       )}
@@ -69,9 +71,10 @@ export const Settings: FunctionComponent = () => {
           )}
           <KratosForm
             submitLabel="OIDC Settings"
-            action={oidcSettings.action}
+            actionURL={oidcSettings.action}
             fields={oidcSettings.fields}
             messages={oidcSettings.messages}
+            title={"OIDC Settings"}
           />
         </div>
       )}

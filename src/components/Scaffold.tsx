@@ -1,5 +1,5 @@
 import { createStyles, Grid } from "@material-ui/core";
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, PropsWithChildren } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(() =>
@@ -11,7 +11,9 @@ const useStyles = makeStyles(() =>
   })
 );
 
-export const Scaffold: FunctionComponent = ({ children }) => {
+export const Scaffold: FunctionComponent = ({
+  children,
+}: PropsWithChildren<unknown>) => {
   const classes = useStyles();
   return (
     <Grid

@@ -33,9 +33,10 @@ export const Recovery: FunctionComponent = () => {
       {form && (
         <KratosForm
           submitLabel="Recovery"
-          action={form.action}
+          actionURL={form.action}
           fields={form.fields}
           messages={form.messages}
+          title={"User Recovery"}
         />
       )}
     </>

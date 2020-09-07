@@ -1,16 +1,29 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, HTMLAttributes, ReactNode } from "react";
 import { FormField, Message } from "@oryd/kratos-client";
 import { KratosMessages } from "./index";
 import { FORM_LABELS } from "../constants/kratos";
-import { Button, Grid, TextField } from "@material-ui/core";
+import {
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  Grid,
+  TextField,
+} from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/core/styles";
 
-interface Props {
-  action: string;
-  messages?: Message[];
+interface Props extends HTMLAttributes<unknown> {
+  title: string;
+  titleMenu?: ReactNode;
+
   fields: FormField[];
-  submitLabel?: string;
+  messages?: Message[];
+  actionURL: string;
+
+  submitLabel: string;
+  alterActions?: ReactNode;
 }
 
 const useStyles = makeStyles((theme) => {
@@ -28,21 +41,40 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-export const KratosForm: FunctionComponent<Props> = (props: Props) => {
-  const { action, messages = [], fields, submitLabel } = props;
+export const KratosForm: FunctionComponent<Props> = ({
+  title,
+  titleMenu,
+  fields,
+  messages,
+  actionURL,
+  submitLabel,
+  alterActions,
+  className,
+}: Props) => {
   const fieldsSorted = sortFormFields({ fields });
   const classes = useStyles();
 
   return (
-    <>
-      {!!messages?.length && <KratosMessages messages={messages} />}
-      {action && (
-        <form className={classes.root} action={action} method="POST">
-          {renderFormFields({ fields: fieldsSorted })}
-          {submitLabel && <Button type="submit">{submitLabel}</Button>}
-        </form>
-      )}
-    </>
+    <Card className={className}>
+      <CardHeader title={title} action={titleMenu} />
+      <form className={classes.root} action={actionURL} method="POST">
+        <CardContent>
+          <Grid
+            container
+            direction="column"
+            justify="center"
+            alignItems="center"
+          >
+            {renderFormFields({ fields: fieldsSorted })}
+            {messages && <KratosMessages messages={messages} />}
+          </Grid>
+        </CardContent>
+        <CardActions>
+          <Button type="submit">{submitLabel}</Button>
+          {alterActions}
+        </CardActions>
+      </form>
+    </Card>
   );
 };
 

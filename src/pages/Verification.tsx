@@ -34,9 +34,10 @@ export const Verification: FunctionComponent = () => {
       {form && (
         <KratosForm
           submitLabel="Verify"
-          action={form.action}
+          actionURL={form.action}
           fields={form.fields}
           messages={form.messages}
+          title={"User Verification"}
         />
       )}
     </>

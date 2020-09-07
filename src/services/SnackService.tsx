@@ -1,6 +1,7 @@
 import React, {
   createContext,
   FunctionComponent,
+  PropsWithChildren,
   useContext,
   useState,
 } from "react";
@@ -45,7 +46,9 @@ const RenderSnack: FunctionComponent<Props> = ({
 
 let uniqueId = 2;
 
-export const SnackProvider: FunctionComponent = ({ children }) => {
+export const SnackProvider: FunctionComponent = ({
+  children,
+}: PropsWithChildren<unknown>) => {
   const [{ current, queue }, setState] = useState<{
     current: SnackProps | null;
     queue: SnackProps[];

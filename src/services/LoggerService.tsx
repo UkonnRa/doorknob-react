@@ -1,11 +1,13 @@
-import React from "react";
+import React, { PropsWithChildren } from "react";
 import { createContext, FunctionComponent, useContext } from "react";
 import winston from "winston";
 import { BrowserConsole } from "../utils";
 
 const Context = createContext<winston.Logger | null>(null);
 
-export const LoggerProvider: FunctionComponent = ({ children }) => {
+export const LoggerProvider: FunctionComponent = ({
+  children,
+}: PropsWithChildren<unknown>) => {
   const logger = winston.createLogger({
     transports: [
       new BrowserConsole({

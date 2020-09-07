@@ -1,4 +1,9 @@
-import React, { createContext, FunctionComponent, useContext } from "react";
+import React, {
+  createContext,
+  FunctionComponent,
+  PropsWithChildren,
+  useContext,
+} from "react";
 import {
   ErrorContainer,
   LoginRequest,
@@ -28,7 +33,9 @@ interface KratosService {
 const Context = createContext<KratosService | null>(null);
 const client = new PublicApi(process.env.REACT_APP_KRATOS_PUBLIC_URL);
 
-export const KratosProvider: FunctionComponent = ({ children }) => {
+export const KratosProvider: FunctionComponent = ({
+  children,
+}: PropsWithChildren<unknown>) => {
   const whoami = (): Promise<Session | undefined> =>
     client.whoami().then(({ body }) => body);
 
