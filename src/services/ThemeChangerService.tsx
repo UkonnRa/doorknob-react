@@ -1,4 +1,3 @@
-import { createMuiTheme, PaletteType, ThemeProvider } from "@material-ui/core";
 import React, {
   createContext,
   FunctionComponent,
@@ -6,6 +5,7 @@ import React, {
   useContext,
   useState,
 } from "react";
+import { createMuiTheme, PaletteType, ThemeProvider } from "@material-ui/core";
 import { PaletteOptions } from "@material-ui/core/styles/createPalette";
 import orange from "@material-ui/core/colors/orange";
 import lime from "@material-ui/core/colors/lime";
