@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
-import { CssBaseline } from "@material-ui/core";
+import { CircularProgress, CssBaseline } from "@material-ui/core";
 import { Compose } from "./utils";
 import {
   KratosProvider,
@@ -35,7 +35,14 @@ ReactDOM.render(
     ]}
   >
     <I18nextProvider i18n={i18n}>
-      <AuthenticationProvider configuration={oidcConfig}>
+      <AuthenticationProvider
+        configuration={oidcConfig}
+        notAuthenticated={() => <CircularProgress />}
+        notAuthorized={() => <CircularProgress />}
+        authenticating={() => <CircularProgress />}
+        callbackComponentOverride={() => <CircularProgress />}
+        sessionLostComponent={() => <CircularProgress />}
+      >
         <CssBaseline />
         <App />
       </AuthenticationProvider>

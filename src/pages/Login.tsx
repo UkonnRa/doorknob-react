@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { LoginRequest } from "@oryd/kratos-client";
 import { useKratos, useSnack } from "../services";
 import { KratosForm } from "../components";
-import { useTranslation } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { Link } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -58,9 +58,9 @@ export const Login: FunctionComponent = () => {
           actionURL={form.action}
           submitLabel={t("LOGIN_SUBMIT")}
           alterActions={
-            <div>
+            <Trans i18nKey="LOGIN_ACTIONS.OR_REGISTER">
               Or <Link href="/registration">register</Link>
-            </div>
+            </Trans>
           }
         />
       )}

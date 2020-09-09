@@ -2,6 +2,7 @@ import React, { FunctionComponent, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import qs from "query-string";
 import { useLogger } from "../services";
+import { CircularProgress } from "@material-ui/core";
 
 export const HydraCallback: FunctionComponent = () => {
   const location = useLocation();
@@ -19,5 +20,5 @@ export const HydraCallback: FunctionComponent = () => {
       .catch((err) => logger.error("Error on hydra callback: ", err));
   }, [logger, queries]);
 
-  return <div>Hydra Callback</div>;
+  return <CircularProgress />;
 };

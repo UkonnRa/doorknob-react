@@ -10,5 +10,11 @@
   "IDENTIFIER": {
     "NAME": "Identifier",
     "INFO": "Including E-Mail, Phone number, etc."
-  }
+  },
+  "SUBMIT": "Submit",
+  "DENY": "Deny",
+  "CONSENT_ACK": "Consent Acknowledge",
+  "REMEMBER_HINT": "Don't ask again",
+  "POLICY_HINT": "Read the Privacy Policy",
+  "TOS_HINT": "Terms of Service"
 }

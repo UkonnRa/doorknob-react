@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import qs from "query-string";
 import { useKratos, useLogger } from "../services";
 import { ObjectSerializer as KratosSerializer } from "@oryd/kratos-client";
+import { CircularProgress } from "@material-ui/core";
 
 export const HydraPostCallback: FunctionComponent = () => {
   const location = useLocation();
@@ -25,7 +26,6 @@ export const HydraPostCallback: FunctionComponent = () => {
     kratos
       .whoami()
       .then((body) => {
-        console.log("whoami body: ", JSON.stringify(body, null, 4));
         const url = qs.stringifyUrl({
           url: `${process.env.REACT_APP_BACKEND_URL}/post-login`,
           query: { challenge },
@@ -40,5 +40,5 @@ export const HydraPostCallback: FunctionComponent = () => {
       .catch((err) => logger.error("Error: ", err));
   }, [kratos, logger, queries]);
 
-  return <div>Hydra Post Callback</div>;
+  return <CircularProgress />;
 };

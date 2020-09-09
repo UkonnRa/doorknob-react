@@ -1,5 +1,8 @@
 {
   "LOGIN_SUBMIT": "登录",
+  "LOGIN_ACTIONS": {
+    "OR_REGISTER": "或者<1>注册</1>"
+  },
   "CHANGE_LANGUAGE": "更换语言",
   "INIT_LOGIN_FAILED": "初始化登录失败",
   "PROJECT_TITLE": "Wonderland DoorKnob 单点登录系统",
@@ -10,5 +13,12 @@
   "IDENTIFIER": {
     "NAME": "用户ID",
     "INFO": "包括电子邮箱、电话号码等"
-  }
+  },
+  "CONSENT_HINT": "第三方服务「<1></1>」正在请求以下权限：",
+  "SUBMIT": "提交",
+  "DENY": "拒绝",
+  "CONSENT_ACK": "授权确认",
+  "REMEMBER_HINT": "不再询问",
+  "POLICY_HINT": "阅读隐私政策",
+  "TOS_HINT": "服务条款"
 }
