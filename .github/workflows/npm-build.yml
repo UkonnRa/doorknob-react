@@ -5,9 +5,9 @@ name: NPM Build CI
 
 on:
   push:
-    branches: [ master, develop, feature/*, release/*, hotfix/*, bugfix/* ]
+    branches: [master, develop, feature/*, release/*, hotfix/*, bugfix/*]
   pull_request:
-    branches: [ master, develop, feature/*, release/*, hotfix/*, bugfix/* ]
+    branches: [master, develop, feature/*, release/*, hotfix/*, bugfix/*]
 
 jobs:
   build:
