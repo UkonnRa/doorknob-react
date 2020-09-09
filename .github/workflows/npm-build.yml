@@ -1,0 +1,30 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: NPM Build CI
+
+on:
+  push:
+    branches: [master, develop, feature/*, release/*, hotfix/*, bugfix/*]
+  pull_request:
+    branches: [master, develop, feature/*, release/*, hotfix/*, bugfix/*]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up NPM
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Build Docker image
+        if: ${{ startsWith(github.ref, 'refs/heads/release') || startsWith(github.ref, 'refs/heads/hotfix') }}
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          npm install && CI=false npm run build
+          docker build -t ukonnra/wonderland-doorknob-react:${GITHUB_REF##*/}-${{github.run_number}} -f ./image/Dockerfile .
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker push ukonnra/wonderland-doorknob-react

@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { FunctionComponent } from "react";
+import React, { useEffect, useState, FunctionComponent } from "react";
 import qs from "query-string";
 import { useLocation } from "react-router-dom";
 import { LoginRequest } from "@oryd/kratos-client";
