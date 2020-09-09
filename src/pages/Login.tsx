@@ -7,8 +7,8 @@ import { useKratos, useSnack, useThemeChanger } from "../services";
 import { I18nMenu, KratosForm } from "../components";
 import { useTranslation } from "react-i18next";
 import { IconButton, Link } from "@material-ui/core";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
-import InvertColorsIcon from "@material-ui/icons/InvertColors";
+import TranslateIcon from "@material-ui/icons/Translate";
+import BrightnessMediumIcon from "@material-ui/icons/BrightnessMedium";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => {
@@ -34,7 +34,6 @@ export const Login: FunctionComponent = () => {
   const { request } = qs.parse(location.search);
   const kratos = useKratos();
   const { t } = useTranslation();
-  const themeChanger = useThemeChanger();
   const classes = useStyles();
 
   useEffect(() => {
@@ -50,49 +49,22 @@ export const Login: FunctionComponent = () => {
 
   const form = body?.methods?.password?.config;
 
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | undefined>(
-    undefined
-  );
-
   return (
     <>
       {form && (
-        <>
-          <KratosForm
-            className={classes.root}
-            title={t("PROJECT_TITLE")}
-            titleMenu={
-              <>
-                <IconButton
-                  color="primary"
-                  onClick={(event) => setAnchorEl(event.currentTarget)}
-                >
-                  <MoreVertIcon />
-                </IconButton>
-                <IconButton
-                  color="secondary"
-                  onClick={() => {
-                    themeChanger.changeTheme(
-                      themeChanger.themeType === "light" ? "dark" : "light"
-                    );
-                  }}
-                >
-                  <InvertColorsIcon />
-                </IconButton>
-              </>
-            }
-            fields={form.fields}
-            messages={form.messages}
-            actionURL={form.action}
-            submitLabel={t("LOGIN_SUBMIT")}
-            alterActions={
-              <div>
-                Or <Link href="/registration">register</Link>
-              </div>
-            }
-          />
-          <I18nMenu setAnchorEl={setAnchorEl} anchorEl={anchorEl} />
-        </>
+        <KratosForm
+          className={classes.root}
+          title={t("PROJECT_TITLE")}
+          fields={form.fields}
+          messages={form.messages}
+          actionURL={form.action}
+          submitLabel={t("LOGIN_SUBMIT")}
+          alterActions={
+            <div>
+              Or <Link href="/registration">register</Link>
+            </div>
+          }
+        />
       )}
     </>
   );

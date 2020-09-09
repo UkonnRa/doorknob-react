@@ -1,6 +1,12 @@
-import React, { FunctionComponent, HTMLAttributes, ReactNode } from "react";
+import React, {
+  Dispatch,
+  FunctionComponent,
+  HTMLAttributes,
+  ReactNode,
+  SetStateAction,
+} from "react";
 import { FormField, Message } from "@oryd/kratos-client";
-import { KratosMessages } from "./index";
+import { I18nMenu, KratosMessages } from "./index";
 import { FORM_LABELS } from "../constants/kratos";
 import {
   Button,
@@ -9,10 +15,14 @@ import {
   CardContent,
   CardHeader,
   Grid,
+  IconButton,
   TextField,
 } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/core/styles";
+import TranslateIcon from "@material-ui/icons/Translate";
+import BrightnessMediumIcon from "@material-ui/icons/BrightnessMedium";
+import { useThemeChanger } from "../services";
 
 interface Props extends HTMLAttributes<unknown> {
   title: string;
@@ -38,6 +48,9 @@ const useStyles = makeStyles((theme) => {
     hidden: {
       display: "none",
     },
+    mainAction: {
+      flex: "auto",
+    },
   };
 });
 
@@ -53,10 +66,36 @@ export const KratosForm: FunctionComponent<Props> = ({
 }: Props) => {
   const fieldsSorted = sortFormFields({ fields });
   const classes = useStyles();
+  const themeChanger = useThemeChanger();
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | undefined>(
+    undefined
+  );
+
+  const titleMenuComp = titleMenu ?? (
+    <>
+      <IconButton
+        color="primary"
+        onClick={(event) => setAnchorEl(event.currentTarget)}
+      >
+        <TranslateIcon />
+      </IconButton>
+      <IconButton
+        color="secondary"
+        onClick={() => {
+          themeChanger.changeTheme(
+            themeChanger.themeType === "light" ? "dark" : "light"
+          );
+        }}
+      >
+        <BrightnessMediumIcon />
+      </IconButton>
+      <I18nMenu setAnchorEl={setAnchorEl} anchorEl={anchorEl} />
+    </>
+  );
 
   return (
     <Card className={className}>
-      <CardHeader title={title} action={titleMenu} />
+      <CardHeader title={title} action={titleMenuComp} />
       <Grid container direction="column" alignContent="center">
         <form className={classes.root} action={actionURL} method="POST">
           <CardContent>
@@ -71,7 +110,9 @@ export const KratosForm: FunctionComponent<Props> = ({
             </Grid>
           </CardContent>
           <CardActions>
-            <Button type="submit">{submitLabel}</Button>
+            <div className={classes.mainAction}>
+              <Button type="submit">{submitLabel}</Button>
+            </div>
             {alterActions}
           </CardActions>
         </form>
@@ -91,16 +132,15 @@ const sortFormFields = ({ fields }: { fields: FormField[] }) => {
 const renderFormFields = ({ fields = [] }: { fields: FormField[] }) =>
   fields.map((field) => {
     const { t } = useTranslation();
-    const { name, type, required, value, messages = [] } = field;
+    const { name, type, required, value, messages } = field;
     const label = FORM_LABELS[name]?.label;
     const classes = useStyles();
     return (
-      <>
+      <React.Fragment key={name}>
         <TextField
-          key={name}
           className={`${classes.field} ${
             type === "hidden" ? classes.hidden : ""
-          }`}
+          }`.trim()}
           type={type}
           name={name}
           defaultValue={value?.toString()}
@@ -108,6 +148,6 @@ const renderFormFields = ({ fields = [] }: { fields: FormField[] }) =>
           label={t(label)}
         />
         {messages && <KratosMessages messages={messages} />}
-      </>
+      </React.Fragment>
     );
   });
