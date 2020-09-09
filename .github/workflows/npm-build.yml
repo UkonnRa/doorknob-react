@@ -24,7 +24,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
         run: |
-          npm install && EXTEND_ESLINT=true npm run build
+          npm install && CI=false npm run build
           docker build -t ukonnra/wonderland-doorknob-react:${GITHUB_REF##*/}-${{github.run_number}} -f ./image/Dockerfile .
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker push ukonnra/wonderland-doorknob-react
