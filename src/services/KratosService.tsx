@@ -28,6 +28,7 @@ interface KratosService {
   ): Promise<VerificationRequest | undefined>;
   initRecover(request: string | unknown): Promise<RecoveryRequest | undefined>;
   getError(error: string | unknown): Promise<ErrorContainer | undefined>;
+  logout(): Promise<void>;
 }
 
 const Context = createContext<KratosService | null>(null);
@@ -89,6 +90,11 @@ export const KratosProvider: FunctionComponent = ({
   ): Promise<ErrorContainer | undefined> =>
     init(error, "/", (e) => client.getSelfServiceError(e));
 
+  const logout = async (): Promise<void> => {
+    const { response } = await client.initializeSelfServiceBrowserLogoutFlow();
+    window.location.assign(response.url ?? "/");
+  };
+
   async function init<R>(
     request: string | unknown,
     fallbackPath: string,
@@ -118,6 +124,7 @@ export const KratosProvider: FunctionComponent = ({
         initVerify,
         initRecover,
         getError,
+        logout,
       }}
     >
       {children}

@@ -12,6 +12,7 @@ import {
   Recovery,
   Error,
   Verification,
+  PostLogout,
 } from "./pages";
 import { withOidcSecure } from "@axa-fr/react-oidc-context";
 import { Scaffold } from "./components";
@@ -29,6 +30,7 @@ const App: FunctionComponent = () => {
           <Route path="/settings" component={Settings} />
           <Route path="/login" component={Login} />
           <Route path="/consent" component={Consent} />
+          <Route path="/post-logout" component={PostLogout} />
           <Route path="/error" component={Error} />
           <Route path="/verification" component={Verification} />
           <Route exact path="/" component={withOidcSecure(Dashboard)} />
