@@ -1,46 +1,20 @@
-import React, {
-  Dispatch,
-  FunctionComponent,
-  HTMLAttributes,
-  ReactNode,
-  SetStateAction,
-} from "react";
+import React, { FunctionComponent, HTMLAttributes } from "react";
 import { FormField, Message } from "@oryd/kratos-client";
-import { I18nMenu, KratosMessages } from "./index";
+import { KratosMessages } from "./index";
 import { FORM_LABELS } from "../constants/kratos";
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardHeader,
-  Grid,
-  IconButton,
-  TextField,
-} from "@material-ui/core";
+import { TextField } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { makeStyles } from "@material-ui/core/styles";
-import TranslateIcon from "@material-ui/icons/Translate";
-import BrightnessMediumIcon from "@material-ui/icons/BrightnessMedium";
-import { useThemeChanger } from "../services";
+import { BasicForm, BasicFormProps } from "./BasicFrom";
 
-interface Props extends HTMLAttributes<unknown> {
+interface Props extends HTMLAttributes<unknown>, BasicFormProps {
   title: string;
-  titleMenu?: ReactNode;
-
   fields: FormField[];
   messages?: Message[];
-  actionURL: string;
-
-  submitLabel: string;
-  alterActions?: ReactNode;
 }
 
 const useStyles = makeStyles((theme) => {
   return {
-    root: {
-      width: "90%",
-    },
     field: {
       width: "100%",
       paddingBottom: theme.spacing(1),
@@ -48,76 +22,17 @@ const useStyles = makeStyles((theme) => {
     hidden: {
       display: "none",
     },
-    mainAction: {
-      flex: "auto",
-    },
   };
 });
 
-export const KratosForm: FunctionComponent<Props> = ({
-  title,
-  titleMenu,
-  fields,
-  messages,
-  actionURL,
-  submitLabel,
-  alterActions,
-  className,
-}: Props) => {
-  const fieldsSorted = sortFormFields({ fields });
-  const classes = useStyles();
-  const themeChanger = useThemeChanger();
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | undefined>(
-    undefined
-  );
-
-  const titleMenuComp = titleMenu ?? (
-    <>
-      <IconButton
-        color="primary"
-        onClick={(event) => setAnchorEl(event.currentTarget)}
-      >
-        <TranslateIcon />
-      </IconButton>
-      <IconButton
-        color="secondary"
-        onClick={() => {
-          themeChanger.changeTheme(
-            themeChanger.themeType === "light" ? "dark" : "light"
-          );
-        }}
-      >
-        <BrightnessMediumIcon />
-      </IconButton>
-      <I18nMenu setAnchorEl={setAnchorEl} anchorEl={anchorEl} />
-    </>
-  );
+export const KratosForm: FunctionComponent<Props> = (props: Props) => {
+  const fieldsSorted = sortFormFields({ fields: props.fields });
 
   return (
-    <Card className={className}>
-      <CardHeader title={title} action={titleMenuComp} />
-      <Grid container direction="column" alignContent="center">
-        <form className={classes.root} action={actionURL} method="POST">
-          <CardContent>
-            <Grid
-              container
-              direction="column"
-              justify="center"
-              alignItems="center"
-            >
-              {renderFormFields({ fields: fieldsSorted })}
-              {messages && <KratosMessages messages={messages} />}
-            </Grid>
-          </CardContent>
-          <CardActions>
-            <div className={classes.mainAction}>
-              <Button type="submit">{submitLabel}</Button>
-            </div>
-            {alterActions}
-          </CardActions>
-        </form>
-      </Grid>
-    </Card>
+    <BasicForm {...props}>
+      {renderFormFields({ fields: fieldsSorted })}
+      {props.messages && <KratosMessages messages={props.messages} />}
+    </BasicForm>
   );
 };
 

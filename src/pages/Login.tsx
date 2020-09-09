@@ -3,12 +3,10 @@ import { FunctionComponent } from "react";
 import qs from "query-string";
 import { useLocation } from "react-router-dom";
 import { LoginRequest } from "@oryd/kratos-client";
-import { useKratos, useSnack, useThemeChanger } from "../services";
-import { I18nMenu, KratosForm } from "../components";
+import { useKratos, useSnack } from "../services";
+import { KratosForm } from "../components";
 import { useTranslation } from "react-i18next";
-import { IconButton, Link } from "@material-ui/core";
-import TranslateIcon from "@material-ui/icons/Translate";
-import BrightnessMediumIcon from "@material-ui/icons/BrightnessMedium";
+import { Link } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => {
