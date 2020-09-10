@@ -18,7 +18,6 @@ export const Settings: FunctionComponent = () => {
       .initSettings(request)
       .then((b) => {
         if (b) {
-          console.log("request: ", b);
           setBody(b);
         }
       })

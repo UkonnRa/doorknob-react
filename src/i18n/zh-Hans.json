@@ -1,7 +1,12 @@
 {
-  "LOGIN_SUBMIT": "登录",
+  "LOGIN": "登录",
+  "REGISTER": "注册",
+  "REGISTER_TITLE": "用户注册",
+  "RECOVERY": "找回",
+  "RECOVERY_TITLE": "用户找回",
   "LOGIN_ACTIONS": {
-    "OR_REGISTER": "或者<1>注册</1>"
+    "OR_REGISTER": "或者<1>注册</1>",
+    "OR_RECOVERY": "忘记密码？<1>找回</1>"
   },
   "CHANGE_LANGUAGE": "更换语言",
   "INIT_LOGIN_FAILED": "初始化登录失败",
@@ -20,5 +25,8 @@
   "CONSENT_ACK": "授权确认",
   "REMEMBER_HINT": "不再询问",
   "POLICY_HINT": "阅读隐私政策",
-  "TOS_HINT": "服务条款"
+  "TOS_HINT": "服务条款",
+  "REGISTER_ACTIONS": {
+    "OR_LOGIN": "已有账户？<1>登录</1>"
+  }
 }

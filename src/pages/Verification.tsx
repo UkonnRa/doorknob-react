@@ -18,7 +18,6 @@ export const Verification: FunctionComponent = () => {
       .initVerify(request)
       .then((b) => {
         if (b) {
-          console.log("Body: ", b);
           setBody(b);
         }
       })

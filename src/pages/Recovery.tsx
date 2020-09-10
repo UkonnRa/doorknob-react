@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { RecoveryRequest } from "@oryd/kratos-client";
 import { useKratos, useLogger } from "../services";
 import { KratosForm, KratosMessages } from "../components";
+import { useTranslation } from "react-i18next";
 
 export const Recovery: FunctionComponent = () => {
   const [body, setBody] = useState<RecoveryRequest>();
@@ -12,6 +13,7 @@ export const Recovery: FunctionComponent = () => {
   const { request } = qs.parse(location.search);
   const kratos = useKratos();
   const logger = useLogger();
+  const { t } = useTranslation();
 
   useEffect(() => {
     kratos
@@ -32,11 +34,11 @@ export const Recovery: FunctionComponent = () => {
       {messages && <KratosMessages messages={messages} />}
       {form && (
         <KratosForm
-          submitLabel="Recovery"
+          submitLabel={t("RECOVERY")}
           actionURL={form.action}
           fields={form.fields}
           messages={form.messages}
-          title={"User Recovery"}
+          title={t("RECOVERY_TITLE")}
         />
       )}
     </>

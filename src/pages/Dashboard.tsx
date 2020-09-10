@@ -1,13 +1,15 @@
 import React, { FunctionComponent } from "react";
-import { useReactOidc } from "@axa-fr/react-oidc-context";
+import { useAuth } from "oidc-react";
+import { Link } from "@material-ui/core";
 
 export const Dashboard: FunctionComponent = () => {
-  const { oidcUser, logout } = useReactOidc();
+  const auth = useAuth();
 
   return (
     <>
-      <button onClick={() => logout()}>logout</button>
-      <textarea readOnly value={JSON.stringify(oidcUser, null, 2)} />
+      <textarea readOnly value={JSON.stringify(auth?.userData, null, 2)} />
+      <button onClick={() => auth?.signOutRedirect()}>logout</button>
+      <Link href="/settings">Settings</Link>
     </>
   );
 };

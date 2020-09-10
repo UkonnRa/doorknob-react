@@ -18,16 +18,23 @@ import { IncomingMessage } from "http";
 
 interface KratosService {
   whoami(): Promise<Session | undefined>;
+
   initLogin(request: string | unknown): Promise<LoginRequest | undefined>;
+
   initRegister(
     request: string | unknown
   ): Promise<RegistrationRequest | undefined>;
+
   initSettings(request: string | unknown): Promise<SettingsRequest | undefined>;
+
   initVerify(
     request: string | unknown
   ): Promise<VerificationRequest | undefined>;
+
   initRecover(request: string | unknown): Promise<RecoveryRequest | undefined>;
+
   getError(error: string | unknown): Promise<ErrorContainer | undefined>;
+
   logout(): Promise<void>;
 }
 
@@ -87,8 +94,18 @@ export const KratosProvider: FunctionComponent = ({
 
   const getError = async (
     error: string | unknown
-  ): Promise<ErrorContainer | undefined> =>
-    init(error, "/", (e) => client.getSelfServiceError(e));
+  ): Promise<ErrorContainer | undefined> => {
+    if (typeof error === "string") {
+      try {
+        const { body } = await client.getSelfServiceError(error);
+        return body;
+      } catch (e) {
+        return undefined;
+      }
+    }
+
+    return undefined;
+  };
 
   const logout = async (): Promise<void> => {
     const { response } = await client.initializeSelfServiceBrowserLogoutFlow();
@@ -106,11 +123,11 @@ export const KratosProvider: FunctionComponent = ({
       return;
     }
 
-    const { body, response } = await func(request);
-    if (!response.statusCode || response.statusCode / 100 !== 2) {
-      window.location.assign(fallback);
-    } else {
+    try {
+      const { body } = await func(request);
       return body;
+    } catch (e) {
+      window.location.assign(fallback);
     }
   }
 

@@ -13,7 +13,6 @@ export const HydraPostCallback: FunctionComponent = () => {
 
   useEffect(() => {
     const challenge = queries.challenge;
-    logger.info(`Post login page: ${challenge}`);
 
     if (!challenge || typeof challenge !== "string") {
       logger.info(
