@@ -25,5 +25,11 @@
   "CONSENT_ACK": "Consent Acknowledge",
   "REMEMBER_HINT": "Don't ask again",
   "POLICY_HINT": "Read the Privacy Policy",
-  "TOS_HINT": "Terms of Service"
+  "TOS_HINT": "Terms of Service",
+  "SETTINGS_HINTS": {
+    "UPDATE_SUCCESS": "Profile is updated successfully"
+  },
+  "PROFILE_SETTINGS": "Profile Settings",
+  "PASSWORD_SETTINGS": "Password Settings",
+  "OIDC_SETTINGS": "OIDC Settings"
 }

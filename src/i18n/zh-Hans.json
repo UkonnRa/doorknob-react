@@ -33,5 +33,11 @@
   "TOS_HINT": "服务条款",
   "REGISTER_ACTIONS": {
     "OR_LOGIN": "已有账户？<1>登录</1>"
-  }
+  },
+  "SETTINGS_HINTS": {
+    "UPDATE_SUCCESS": "个人信息更新成功"
+  },
+  "PROFILE_SETTINGS": "个人信息设置",
+  "PASSWORD_SETTINGS": "密码设置",
+  "OIDC_SETTINGS": "OIDC 设置"
 }
