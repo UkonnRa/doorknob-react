@@ -1,5 +1,9 @@
 # DoorKnob React
 
+> Oh, no use! Ha ha ha ha. I forgot to tell you, ho ho ho ho! I'm locked!
+>
+> -- The Doorknob
+
 A production-ready SSO System integrating with:
 
 - [ORY Hydra](https://github.com/ory/hydra) for OAuth2/OIDC support
