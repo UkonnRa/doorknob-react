@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { SettingsRequest } from "@oryd/kratos-client";
 import { useKratos, useLogger } from "../services";
 import { KratosForm, KratosMessages } from "../components";
+import { useAuth } from "oidc-react";
 
 export const Settings: FunctionComponent = () => {
   const [body, setBody] = useState<SettingsRequest>();
@@ -12,6 +13,7 @@ export const Settings: FunctionComponent = () => {
   const { request } = qs.parse(location.search);
   const kratos = useKratos();
   const logger = useLogger();
+  const auth = useAuth();
 
   useEffect(() => {
     kratos
@@ -44,6 +46,7 @@ export const Settings: FunctionComponent = () => {
             fields={profileSettings.fields}
             messages={profileSettings.messages}
             title={"Profile Settings"}
+            titleMenu={<></>}
           />
         </div>
       )}
@@ -59,6 +62,7 @@ export const Settings: FunctionComponent = () => {
             fields={passwordSettings.fields}
             messages={passwordSettings.messages}
             title={"Password Settings"}
+            titleMenu={<></>}
           />
         </div>
       )}
@@ -74,6 +78,7 @@ export const Settings: FunctionComponent = () => {
             fields={oidcSettings.fields}
             messages={oidcSettings.messages}
             title={"OIDC Settings"}
+            titleMenu={<></>}
           />
         </div>
       )}

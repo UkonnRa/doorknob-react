@@ -18,7 +18,7 @@ import {
   PostLogout,
   Callback,
 } from "./pages";
-import { Scaffold } from "./components";
+import { AppFrame, Scaffold } from "./components";
 import { AuthProvider, UserManager } from "oidc-react";
 import { AuthProviderProps } from "oidc-react/build/src/AuthContextInterface";
 
@@ -47,13 +47,15 @@ const App: FunctionComponent = () => {
     };
   };
 
-  const withApp = (
+  const withAppFrame = (
     Child: JSXElementConstructor<PropsWithChildren<unknown>>
   ) => {
     return function AppWrapper() {
       return (
         <AuthProvider {...oidcConfig}>
-          <Child />
+          <AppFrame>
+            <Child />
+          </AppFrame>
         </AuthProvider>
       );
     };
@@ -70,13 +72,13 @@ const App: FunctionComponent = () => {
         <Route path="/callback" component={withScaffold(Callback)} />
         <Route path="/registration" component={withScaffold(Registration)} />
         <Route path="/recovery" component={withScaffold(Recovery)} />
-        <Route path="/settings" component={withApp(Settings)} />
+        <Route path="/settings" component={withAppFrame(Settings)} />
         <Route path="/login" component={withScaffold(Login)} />
         <Route path="/consent" component={withScaffold(Consent)} />
         <Route path="/post-logout" component={withScaffold(PostLogout)} />
         <Route path="/error" component={withScaffold(Error)} />
         <Route path="/verification" component={withScaffold(Verification)} />
-        <Route exact path="/" component={withApp(Dashboard)} />
+        <Route exact path="/" component={withAppFrame(Dashboard)} />
       </Switch>
     </BrowserRouter>
   );
