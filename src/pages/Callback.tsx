@@ -1,16 +1,17 @@
 import React, { FunctionComponent, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { useReactOidc } from "@axa-fr/react-oidc-context";
+import qs from "query-string";
+import { CircularProgress } from "@material-ui/core";
 
 export const Callback: FunctionComponent = () => {
   const location = useLocation();
-  const { oidcUser } = useReactOidc();
-  const { profile } = oidcUser;
+  const query = qs.parse(location.search);
 
   useEffect(() => {
-    console.log("location: ", location);
-    console.log("user: ", profile);
-  }, [location, profile]);
+    window.location.assign(
+      qs.stringifyUrl({ url: query.error ? "/error" : "/", query })
+    );
+  }, [query]);
 
-  return <div>Callback</div>;
+  return <CircularProgress />;
 };

@@ -11,10 +11,6 @@ export class BrowserConsole extends TransportStream {
   }
 
   log(info: TransformableInfo, next: () => void): void {
-    const data = Object.entries(info).filter(
-      ([k]) => k !== "level" && k !== "message"
-    );
-
     const chalkInst = new chalk.Instance({ level: 1 });
     const level = info.level.toUpperCase() as Levels;
 
@@ -30,17 +26,7 @@ export class BrowserConsole extends TransportStream {
           return chalkInst.magenta(level);
       }
     };
-
-    if (data.length > 0) {
-      console.log(
-        `[${colorString(level)}]`,
-        info.message,
-        Object.fromEntries(data)
-      );
-    } else {
-      console.log(`[${colorString(level)}]`, info.message);
-    }
-
+    console.log(`[${colorString(level)}]`, info);
     next();
   }
 }

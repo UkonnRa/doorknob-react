@@ -27,7 +27,8 @@ urls:
   login: http://127.0.0.1:4455/api/login
   consent: http://127.0.0.1:4455/consent
   logout: http://127.0.0.1:4455/logout
-  post_logout_redirect: http://127.0.0.1:4455
+  error: http://127.0.0.1:4455/error
+  post_logout_redirect: http://127.0.0.1:4455/post-logout
 strategies:
   access_token: jwt
 secrets:
