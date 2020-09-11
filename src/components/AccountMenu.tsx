@@ -1,16 +1,13 @@
 import React, { Dispatch, FunctionComponent, SetStateAction } from "react";
 import {
-  createStyles,
   Divider,
   ListItemIcon,
   ListItemText,
   Menu,
   MenuItem,
-  Theme,
 } from "@material-ui/core";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "oidc-react";
-import { makeStyles } from "@material-ui/core/styles";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SettingsIcon from "@material-ui/icons/Settings";
 
@@ -18,8 +15,6 @@ interface Props {
   anchorEl?: HTMLElement;
   setAnchorEl: Dispatch<SetStateAction<HTMLElement | undefined>>;
 }
-
-const useStyles = makeStyles((theme: Theme) => createStyles({}));
 
 export const AccountMenu: FunctionComponent<Props> = ({
   anchorEl,
