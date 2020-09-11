@@ -55,11 +55,20 @@ export const Login: FunctionComponent = () => {
           fields={form.fields}
           messages={form.messages}
           actionURL={form.action}
-          submitLabel={t("LOGIN_SUBMIT")}
+          submitLabel={t("LOGIN")}
           alterActions={
-            <Trans i18nKey="LOGIN_ACTIONS.OR_REGISTER">
-              Or <Link href="/registration">register</Link>
-            </Trans>
+            <>
+              <div>
+                <Trans i18nKey="LOGIN_ACTIONS.OR_REGISTER">
+                  Or <Link href="/registration">register</Link>
+                </Trans>
+              </div>
+              <div>
+                <Trans i18nKey="LOGIN_ACTIONS.OR_RECOVERY">
+                  Forget? Try <Link href="/recovery">recovery</Link>
+                </Trans>
+              </div>
+            </>
           }
         />
       )}

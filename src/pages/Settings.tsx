@@ -5,6 +5,17 @@ import { useLocation } from "react-router-dom";
 import { SettingsRequest } from "@oryd/kratos-client";
 import { useKratos, useLogger } from "../services";
 import { KratosForm, KratosMessages } from "../components";
+import { useTranslation } from "react-i18next";
+import { makeStyles } from "@material-ui/core/styles";
+import { createStyles, Theme } from "@material-ui/core";
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    card: {
+      marginBottom: theme.spacing(1),
+    },
+  })
+);
 
 export const Settings: FunctionComponent = () => {
   const [body, setBody] = useState<SettingsRequest>();
@@ -12,16 +23,13 @@ export const Settings: FunctionComponent = () => {
   const { request } = qs.parse(location.search);
   const kratos = useKratos();
   const logger = useLogger();
+  const { t } = useTranslation();
+  const classes = useStyles();
 
   useEffect(() => {
     kratos
       .initSettings(request)
-      .then((b) => {
-        if (b) {
-          console.log("request: ", b);
-          setBody(b);
-        }
-      })
+      .then((b) => b && setBody(b))
       .catch((err) => logger.error("Error: ", err));
   }, [kratos, logger, request]);
 
@@ -32,49 +40,49 @@ export const Settings: FunctionComponent = () => {
   return (
     <>
       {body?.messages && <KratosMessages messages={body.messages} />}
-      {body?.state === "success" && <p>Your changes have been saved!</p>}
+      {body?.state === "success" && <p>{t("SETTINGS_HINTS.UPDATE_SUCCESS")}</p>}
       {profileSettings && (
-        <div>
-          <h3>Profile</h3>
+        <div className={classes.card}>
           {profileSettings.messages && (
             <KratosMessages messages={profileSettings.messages} />
           )}
           <KratosForm
-            submitLabel="Profile Settings"
+            submitLabel={t("SUBMIT")}
             actionURL={profileSettings.action}
             fields={profileSettings.fields}
             messages={profileSettings.messages}
-            title={"Profile Settings"}
+            title={t("PROFILE_SETTINGS")}
+            titleMenu={<></>}
           />
         </div>
       )}
       {passwordSettings && (
-        <div>
-          <h3>Profile</h3>
+        <div className={classes.card}>
           {passwordSettings.messages && (
             <KratosMessages messages={passwordSettings.messages} />
           )}
           <KratosForm
-            submitLabel="Password Settings"
+            submitLabel={t("SUBMIT")}
             actionURL={passwordSettings.action}
             fields={passwordSettings.fields}
             messages={passwordSettings.messages}
-            title={"Password Settings"}
+            title={t("PASSWORD_SETTINGS")}
+            titleMenu={<></>}
           />
         </div>
       )}
       {oidcSettings && (
-        <div>
-          <h3>OIDC</h3>
+        <div className={classes.card}>
           {oidcSettings.messages && (
             <KratosMessages messages={oidcSettings.messages} />
           )}
           <KratosForm
-            submitLabel="OIDC Settings"
+            submitLabel={t("SUBMIT")}
             actionURL={oidcSettings.action}
             fields={oidcSettings.fields}
             messages={oidcSettings.messages}
-            title={"OIDC Settings"}
+            title={t("OIDC_SETTINGS")}
+            titleMenu={<></>}
           />
         </div>
       )}

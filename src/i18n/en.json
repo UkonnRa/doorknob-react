@@ -1,5 +1,12 @@
 {
-  "LOGIN_SUBMIT": "Login",
+  "LOGIN": "Login",
+  "LOGOUT": "Logout",
+  "REGISTER": "Register",
+  "REGISTER_TITLE": "User Registration",
+  "RECOVERY": "Recovery",
+  "RECOVERY_TITLE": "User Recovery",
+  "SETTINGS": "Settings",
+  "DASHBOARD": "Dashboard",
   "CHANGE_LANGUAGE": "Change Language",
   "INIT_LOGIN_FAILED": "Failed to initialize login",
   "PROJECT_TITLE": "Wonderland DoorKnob SSO System",
@@ -7,6 +14,8 @@
   "USERNAME": "Username",
   "NICKNAME": "Nickname",
   "PASSWORD": "Password",
+  "USER_DATA": "User Data",
+  "USER_SESSION": "User Session",
   "IDENTIFIER": {
     "NAME": "Identifier",
     "INFO": "Including E-Mail, Phone number, etc."
@@ -16,5 +25,11 @@
   "CONSENT_ACK": "Consent Acknowledge",
   "REMEMBER_HINT": "Don't ask again",
   "POLICY_HINT": "Read the Privacy Policy",
-  "TOS_HINT": "Terms of Service"
+  "TOS_HINT": "Terms of Service",
+  "SETTINGS_HINTS": {
+    "UPDATE_SUCCESS": "Profile is updated successfully"
+  },
+  "PROFILE_SETTINGS": "Profile Settings",
+  "PASSWORD_SETTINGS": "Password Settings",
+  "OIDC_SETTINGS": "OIDC Settings"
 }

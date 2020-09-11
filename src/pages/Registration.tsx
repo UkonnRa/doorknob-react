@@ -7,6 +7,7 @@ import { useKratos, useLogger } from "../services";
 import { KratosForm, KratosMessages } from "../components";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link } from "@material-ui/core";
+import { Trans, useTranslation } from "react-i18next";
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -31,6 +32,7 @@ export const Registration: FunctionComponent = () => {
   const kratos = useKratos();
   const logger = useLogger();
   const classes = useStyles();
+  const { t } = useTranslation();
 
   useEffect(() => {
     kratos
@@ -52,15 +54,15 @@ export const Registration: FunctionComponent = () => {
       {form && (
         <KratosForm
           className={classes.root}
-          submitLabel="Register"
+          submitLabel={t("REGISTER")}
           actionURL={form.action}
           fields={form.fields}
           messages={form.messages}
-          title={"User Registration"}
+          title={t("REGISTER_TITLE")}
           alterActions={
-            <div>
+            <Trans i18nKey="REGISTER_ACTIONS.OR_LOGIN">
               Already have a account? <Link href="/login">Log in</Link>
-            </div>
+            </Trans>
           }
         />
       )}

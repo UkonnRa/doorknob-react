@@ -47,9 +47,7 @@ export const BasicForm: FunctionComponent<BasicFormProps> = ({
 }: BasicFormProps) => {
   const classes = useStyles();
   const themeChanger = useThemeChanger();
-  const [anchorEl, setAnchorEl] = React.useState<HTMLElement | undefined>(
-    undefined
-  );
+  const [anchorEl, setAnchorEl] = React.useState<HTMLElement>();
 
   const titleMenuComp = titleMenu ?? (
     <>

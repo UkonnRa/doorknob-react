@@ -1,7 +1,15 @@
 {
-  "LOGIN_SUBMIT": "登录",
+  "LOGIN": "登录",
+  "LOGOUT": "登出",
+  "REGISTER": "注册",
+  "REGISTER_TITLE": "用户注册",
+  "RECOVERY": "找回",
+  "RECOVERY_TITLE": "用户找回",
+  "SETTINGS": "设置",
+  "DASHBOARD": "概要",
   "LOGIN_ACTIONS": {
-    "OR_REGISTER": "或者<1>注册</1>"
+    "OR_REGISTER": "或者<1>注册</1>",
+    "OR_RECOVERY": "忘记密码？<1>找回</1>"
   },
   "CHANGE_LANGUAGE": "更换语言",
   "INIT_LOGIN_FAILED": "初始化登录失败",
@@ -10,6 +18,8 @@
   "USERNAME": "用户名",
   "NICKNAME": "昵称",
   "PASSWORD": "密码",
+  "USER_DATA": "用户数据",
+  "USER_SESSION": "用户会话",
   "IDENTIFIER": {
     "NAME": "用户ID",
     "INFO": "包括电子邮箱、电话号码等"
@@ -20,5 +30,14 @@
   "CONSENT_ACK": "授权确认",
   "REMEMBER_HINT": "不再询问",
   "POLICY_HINT": "阅读隐私政策",
-  "TOS_HINT": "服务条款"
+  "TOS_HINT": "服务条款",
+  "REGISTER_ACTIONS": {
+    "OR_LOGIN": "已有账户？<1>登录</1>"
+  },
+  "SETTINGS_HINTS": {
+    "UPDATE_SUCCESS": "个人信息更新成功"
+  },
+  "PROFILE_SETTINGS": "个人信息设置",
+  "PASSWORD_SETTINGS": "密码设置",
+  "OIDC_SETTINGS": "OIDC 设置"
 }
