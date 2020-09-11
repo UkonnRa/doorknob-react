@@ -58,7 +58,7 @@ services:
     networks:
       - intranet
   doorknob:
-    image: ukonnra/wonderland-doorknob:0.0.3-8
+    image: ukonnra/wonderland-doorknob
     environment:
       - HYDRA_ADMIN_URL=http://hydra:4445
       - HYDRA_PUBLIC_URL=http://127.0.0.1:4455/.ory/hydra/public
@@ -72,7 +72,7 @@ services:
     networks:
       - intranet
   doorknob-react:
-    image: ukonnra/wonderland-doorknob-react:0.0.1-7
+    image: ukonnra/wonderland-doorknob-react
     environment:
       - REACT_APP_BASE_URL=http://127.0.0.1:4455
       - REACT_APP_KRATOS_PUBLIC_URL=http://127.0.0.1:4455/.ory/kratos/public
