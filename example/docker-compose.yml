@@ -2,8 +2,6 @@ version: "3"
 services:
   kratos-migrate:
     image: oryd/kratos:latest-sqlite
-    environment:
-      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true&mode=rwc
     volumes:
       - kratos-sqlite:/var/lib/sqlite
       - ../.kratos:/etc/config/kratos
@@ -19,15 +17,26 @@ services:
       - 4433:4433 # public
       - 4434:4434 # admin
     restart: unless-stopped
-    environment:
-      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
     command: serve -c /etc/config/kratos/.kratos.yml --dev
     volumes:
       - kratos-sqlite:/var/lib/sqlite
       - ../.kratos:/etc/config/kratos
     networks:
       - intranet
+
+  hydra-migrate:
+    image: oryd/hydra
+    command:
+      migrate sql -e --yes
+    restart: on-failure
+    volumes:
+      - ../.hydra/.hydra.yml:/.hydra
+    networks:
+      - intranet
+
   hydra:
+    depends_on:
+      - hydra-migrate
     image: oryd/hydra
     ports:
       - 4444:4444 # Public port
@@ -39,6 +48,16 @@ services:
     restart: unless-stopped
     networks:
       - intranet
+
+  hydra-postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=hydra
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=hydra
+    networks:
+      - intranet
+
   nginx:
     image: nginx
     depends_on:
