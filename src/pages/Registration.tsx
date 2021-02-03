@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FunctionComponent } from "react";
 import qs from "query-string";
 import { useLocation } from "react-router-dom";
-import { RegistrationRequest } from "@oryd/kratos-client";
+import { RegistrationFlow } from "@ory/kratos-client";
 import { useKratos, useLogger } from "../services";
 import { KratosForm, KratosMessages } from "../components";
 import { makeStyles } from "@material-ui/core/styles";
@@ -26,9 +26,9 @@ const useStyles = makeStyles((theme) => {
 });
 
 export const Registration: FunctionComponent = () => {
-  const [body, setBody] = useState<RegistrationRequest>();
+  const [body, setBody] = useState<RegistrationFlow>();
   const location = useLocation();
-  const { request } = qs.parse(location.search);
+  const { flow } = qs.parse(location.search);
   const kratos = useKratos();
   const logger = useLogger();
   const classes = useStyles();
@@ -36,14 +36,14 @@ export const Registration: FunctionComponent = () => {
 
   useEffect(() => {
     kratos
-      .initRegister(request)
+      .initRegister(flow)
       .then((b) => {
         if (b) {
           setBody(b);
         }
       })
       .catch((err) => logger.error("Error: ", err));
-  }, [kratos, logger, request]);
+  }, [kratos, logger, flow]);
 
   const messages = body?.messages;
   const form = body?.methods?.password?.config;

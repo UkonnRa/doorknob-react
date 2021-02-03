@@ -49,7 +49,7 @@ export const ConsentForm: FunctionComponent<Props> = ({ data }: Props) => {
             <FormControl component="fieldset">
               <FormLabel component="legend">
                 <Trans i18nKey="CONSENT_HINT">
-                  Client [{data.client.clientName}] is asking for the following
+                  Client [{data.client.client_name}] is asking for the following
                   permissions:
                 </Trans>
               </FormLabel>
@@ -62,14 +62,14 @@ export const ConsentForm: FunctionComponent<Props> = ({ data }: Props) => {
 
             <Divider />
 
-            {data.client.policyUri && (
+            {data.client.policy_uri && (
               <div>
-                <a href={data.client.policyUri}>{t("POLICY_HINT")}</a>
+                <a href={data.client.policy_uri}>{t("POLICY_HINT")}</a>
               </div>
             )}
-            {data.client.tosUri && (
+            {data.client.tos_uri && (
               <div>
-                <a href={data.client.tosUri}>{t("TOS_HINT")}</a>
+                <a href={data.client.tos_uri}>{t("TOS_HINT")}</a>
               </div>
             )}
 

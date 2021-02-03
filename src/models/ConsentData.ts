@@ -1,4 +1,4 @@
-import { OAuth2Client } from "@oryd/hydra-client";
+import { OAuth2Client } from "@ory/hydra-client";
 
 export interface ConsentData {
   challenge: string;

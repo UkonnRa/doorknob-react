@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { FunctionComponent } from "react";
 import qs from "query-string";
 import { useLocation } from "react-router-dom";
-import { VerificationRequest } from "@oryd/kratos-client";
+import { VerificationFlow } from "@ory/kratos-client";
 import { useKratos, useLogger } from "../services";
 import { KratosForm, KratosMessages } from "../components";
 
 export const Verification: FunctionComponent = () => {
-  const [body, setBody] = useState<VerificationRequest>();
+  const [body, setBody] = useState<VerificationFlow>();
   const location = useLocation();
   const { request } = qs.parse(location.search);
   const kratos = useKratos();
@@ -25,7 +25,7 @@ export const Verification: FunctionComponent = () => {
   }, [kratos, logger, request]);
 
   const messages = body?.messages;
-  const form = body?.form;
+  const form = body?.methods["link"]?.config;
 
   return (
     <>

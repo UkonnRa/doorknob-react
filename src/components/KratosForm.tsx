@@ -1,5 +1,5 @@
 import React, { FunctionComponent, HTMLAttributes } from "react";
-import { FormField, Message } from "@oryd/kratos-client";
+import { FormField, Message } from "@ory/kratos-client";
 import { KratosMessages } from "./index";
 import { FORM_LABELS } from "../constants/kratos";
 import { TextField } from "@material-ui/core";

@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { useAuth } from "oidc-react";
 import { Card, CardContent, CardHeader, createStyles } from "@material-ui/core";
-import { Session } from "@oryd/kratos-client";
+import { Session } from "@ory/kratos-client";
 import { useKratos } from "../services";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTranslation } from "react-i18next";

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { Message } from "@oryd/kratos-client";
+import { Message } from "@ory/kratos-client";
 import { Typography } from "@material-ui/core";
 
 interface Props {

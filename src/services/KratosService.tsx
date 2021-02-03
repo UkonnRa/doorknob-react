@@ -5,33 +5,29 @@ import React, {
   useContext,
 } from "react";
 import {
+  Configuration,
   ErrorContainer,
-  LoginRequest,
+  LoginFlow,
   PublicApi,
-  RecoveryRequest,
-  RegistrationRequest,
+  RecoveryFlow,
+  RegistrationFlow,
   Session,
-  SettingsRequest,
-  VerificationRequest,
-} from "@oryd/kratos-client";
-import { IncomingMessage } from "http";
+  SettingsFlow,
+  VerificationFlow,
+} from "@ory/kratos-client";
 
 interface KratosService {
   whoami(): Promise<Session | undefined>;
 
-  initLogin(request: string | unknown): Promise<LoginRequest | undefined>;
+  initLogin(flow: string | unknown): Promise<LoginFlow | undefined>;
 
-  initRegister(
-    request: string | unknown
-  ): Promise<RegistrationRequest | undefined>;
+  initRegister(flow: string | unknown): Promise<RegistrationFlow | undefined>;
 
-  initSettings(request: string | unknown): Promise<SettingsRequest | undefined>;
+  initSettings(flow: string | unknown): Promise<SettingsFlow | undefined>;
 
-  initVerify(
-    request: string | unknown
-  ): Promise<VerificationRequest | undefined>;
+  initVerify(flow: string | unknown): Promise<VerificationFlow | undefined>;
 
-  initRecover(request: string | unknown): Promise<RecoveryRequest | undefined>;
+  initRecover(flow: string | unknown): Promise<RecoveryFlow | undefined>;
 
   getError(error: string | unknown): Promise<ErrorContainer | undefined>;
 
@@ -39,56 +35,56 @@ interface KratosService {
 }
 
 const Context = createContext<KratosService | null>(null);
-const client = new PublicApi(process.env.REACT_APP_KRATOS_PUBLIC_URL);
+const client = new PublicApi(
+  new Configuration({ basePath: process.env.REACT_APP_KRATOS_PUBLIC_URL })
+);
 
 export const KratosProvider: FunctionComponent = ({
   children,
 }: PropsWithChildren<unknown>) => {
   const whoami = (): Promise<Session | undefined> =>
-    client.whoami().then(({ body }) => body);
+    client.whoami().then(({ data }) => data);
 
   const initLogin = async (
-    request: string | unknown
-  ): Promise<LoginRequest | undefined> => {
+    flow: string | unknown
+  ): Promise<LoginFlow | undefined> => {
     const fallback = "/self-service/browser/flows/login";
-    return await init(request, fallback, (r) =>
-      client.getSelfServiceBrowserLoginRequest(r)
-    );
+    return await init(flow, fallback, (r) => client.getSelfServiceLoginFlow(r));
   };
 
   const initRegister = async (
-    request: string | unknown
-  ): Promise<RegistrationRequest | undefined> => {
+    flow: string | unknown
+  ): Promise<RegistrationFlow | undefined> => {
     const fallback = "/self-service/browser/flows/registration";
-    return await init(request, fallback, (r) =>
-      client.getSelfServiceBrowserRegistrationRequest(r)
+    return await init(flow, fallback, (r) =>
+      client.getSelfServiceRegistrationFlow(r)
     );
   };
 
   const initSettings = async (
-    request: string | unknown
-  ): Promise<SettingsRequest | undefined> => {
+    flow: string | unknown
+  ): Promise<SettingsFlow | undefined> => {
     const fallback = "/self-service/browser/flows/settings";
-    return await init(request, fallback, (r) =>
-      client.getSelfServiceBrowserSettingsRequest(r)
+    return await init(flow, fallback, (r) =>
+      client.getSelfServiceSettingsFlow(r)
     );
   };
 
   const initVerify = async (
     request: string | unknown
-  ): Promise<VerificationRequest | undefined> => {
+  ): Promise<VerificationFlow | undefined> => {
     const fallbackPath = "/self-service/browser/flows/verification/email";
     return await init(request, fallbackPath, (r) =>
-      client.getSelfServiceVerificationRequest(r)
+      client.getSelfServiceVerificationFlow(r)
     );
   };
 
   const initRecover = async (
     request: string | unknown
-  ): Promise<RecoveryRequest | undefined> => {
+  ): Promise<RecoveryFlow | undefined> => {
     const fallback = "/self-service/browser/flows/recovery";
     return await init(request, fallback, (r) =>
-      client.getSelfServiceBrowserRecoveryRequest(r)
+      client.getSelfServiceRecoveryFlow(r)
     );
   };
 
@@ -97,8 +93,8 @@ export const KratosProvider: FunctionComponent = ({
   ): Promise<ErrorContainer | undefined> => {
     if (typeof error === "string") {
       try {
-        const { body } = await client.getSelfServiceError(error);
-        return body;
+        const { data } = await client.getSelfServiceError(error);
+        return data;
       } catch (e) {
         return undefined;
       }
@@ -108,14 +104,14 @@ export const KratosProvider: FunctionComponent = ({
   };
 
   const logout = async (): Promise<void> => {
-    const { response } = await client.initializeSelfServiceBrowserLogoutFlow();
-    window.location.assign(response.url ?? "/");
+    const { config } = await client.initializeSelfServiceBrowserLogoutFlow();
+    window.location.assign(config.url ?? "/");
   };
 
   async function init<R>(
     request: string | unknown,
     fallbackPath: string,
-    func: (request: string) => Promise<{ body: R; response: IncomingMessage }>
+    func: (request: string) => Promise<{ data: R; response?: any }>
   ): Promise<R | undefined> {
     const fallback = `${process.env.REACT_APP_KRATOS_PUBLIC_URL}${fallbackPath}`;
     if (typeof request !== "string") {
@@ -124,8 +120,8 @@ export const KratosProvider: FunctionComponent = ({
     }
 
     try {
-      const { body } = await func(request);
-      return body;
+      const { data } = await func(request);
+      return data;
     } catch (e) {
       window.location.assign(fallback);
     }

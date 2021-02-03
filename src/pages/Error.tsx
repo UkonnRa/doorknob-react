@@ -44,7 +44,9 @@ export const Error: FunctionComponent = () => {
           setErrorBody(error_description);
         }
       })
-      .then(() => new Promise((resolve) => setTimeout(() => resolve(), 5000)))
+      .then(
+        () => new Promise<void>((resolve) => setTimeout(() => resolve(), 5000))
+      )
       .then(() => kratos.logout())
       .catch((err) => logger.error("Error: ", err));
   }, [kratos, logger, error, t, error_description]);

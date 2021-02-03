@@ -2,7 +2,6 @@ import React, { FunctionComponent, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import qs from "query-string";
 import { useKratos, useLogger } from "../services";
-import { ObjectSerializer as KratosSerializer } from "@oryd/kratos-client";
 import { CircularProgress } from "@material-ui/core";
 
 export const HydraPostCallback: FunctionComponent = () => {
@@ -32,7 +31,7 @@ export const HydraPostCallback: FunctionComponent = () => {
 
         return fetch(url, {
           method: "POST",
-          body: JSON.stringify(KratosSerializer.serialize(body, "Session")),
+          body: JSON.stringify(body),
         });
       })
       .then((resp) => window.location.assign(resp.url))

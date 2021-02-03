@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FunctionComponent } from "react";
 import qs from "query-string";
 import { useLocation } from "react-router-dom";
-import { SettingsRequest } from "@oryd/kratos-client";
+import { SettingsFlow } from "@ory/kratos-client";
 import { useKratos, useLogger } from "../services";
 import { KratosForm, KratosMessages } from "../components";
 import { useTranslation } from "react-i18next";
@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const Settings: FunctionComponent = () => {
-  const [body, setBody] = useState<SettingsRequest>();
+  const [body, setBody] = useState<SettingsFlow>();
   const location = useLocation();
-  const { request } = qs.parse(location.search);
+  const { flow } = qs.parse(location.search);
   const kratos = useKratos();
   const logger = useLogger();
   const { t } = useTranslation();
@@ -28,10 +28,10 @@ export const Settings: FunctionComponent = () => {
 
   useEffect(() => {
     kratos
-      .initSettings(request)
+      .initSettings(flow)
       .then((b) => b && setBody(b))
       .catch((err) => logger.error("Error: ", err));
-  }, [kratos, logger, request]);
+  }, [kratos, logger, flow]);
 
   const profileSettings = body?.methods?.profile?.config;
   const passwordSettings = body?.methods?.password?.config;

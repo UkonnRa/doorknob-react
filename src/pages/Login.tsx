@@ -1,7 +1,7 @@
 import React, { useEffect, useState, FunctionComponent } from "react";
 import qs from "query-string";
 import { useLocation } from "react-router-dom";
-import { LoginRequest } from "@oryd/kratos-client";
+import { LoginFlow } from "@ory/kratos-client";
 import { useKratos, useSnack } from "../services";
 import { KratosForm } from "../components";
 import { Trans, useTranslation } from "react-i18next";
@@ -26,16 +26,16 @@ const useStyles = makeStyles((theme) => {
 
 export const Login: FunctionComponent = () => {
   const snack = useSnack();
-  const [body, setBody] = useState<LoginRequest>();
+  const [body, setBody] = useState<LoginFlow>();
   const location = useLocation();
-  const { request } = qs.parse(location.search);
+  const { flow } = qs.parse(location.search);
   const kratos = useKratos();
   const { t } = useTranslation();
   const classes = useStyles();
 
   useEffect(() => {
     kratos
-      .initLogin(request)
+      .initLogin(flow)
       .then((b) => b && setBody(b))
       .catch(() => {
         snack.createSnack(t("INIT_LOGIN_FAILED"));
